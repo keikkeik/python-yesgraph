@@ -42,9 +42,8 @@ class YesGraphAPI(object):
         resp = self.session.get(self.base_url + endpoint, data=data)
         if not resp.ok:
             resp.raise_for_status()
-        else:
-            data = resp.json()
-            return data
+
+        return resp.json()
 
     def post(self, endpoint, data=None):
         """
@@ -60,9 +59,8 @@ class YesGraphAPI(object):
         resp = self.session.post(self.base_url + endpoint, data=data)
         if not resp.ok:
             resp.raise_for_status()
-        else:
-            data = resp.json()
-            return data
+
+        return resp.json()
 
     # ENDPOINTS
     def get_address_book(self, user_id):
