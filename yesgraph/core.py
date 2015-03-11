@@ -113,8 +113,24 @@ class YesGraphAPI(object):
         """
         return self.get('/contacts/' + str(user_id))
 
-    def post_invite_accepted(self):
-        raise NotImplementedError
+    def post_invite_accepted(self, new_user_id, invitee_id, invitee_type,
+                             accepted_at=None):
+        """
+        Wrapped method for POST of /invite-accepted endpoint
+
+        Documentation - https://www.yesgraph.com/docs/#post-invite-accepted
+        """
+        data = {
+            'new_user_id': str(new_user_id),
+            'invitee_id': str(invitee_id),
+            'invitee_type': invitee_type,
+        }
+        if accepted_at:
+            data['accepted_at'] = accepted_at
+
+        payload = json.dumps(data)
+
+        return self.post('/invite-accepted', payload)
 
     def invite_sent(self):
         raise NotImplementedError
