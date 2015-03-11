@@ -159,7 +159,12 @@ class YesGraphAPI(object):
         return self.get('/test')
 
     def get_users(self):
-        raise NotImplementedError
+        """
+        Wrapped method for GET of /users endpoint
+
+        Documentation - https://www.yesgraph.com/docs/#get-users
+        """
+        return self.get('/users')
 
     def users_post(self):
         raise NotImplementedError
