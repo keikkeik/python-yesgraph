@@ -19,9 +19,4 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=dependencies,
-    #entry_points={
-    #    'console_scripts': [
-    #        'script = yesgraph.cli:main',
-    #    ],
-    #},
 )
