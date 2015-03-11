@@ -68,8 +68,7 @@ class YesGraphAPI(object):
     # documentation
     #   https://www.yesgraph.com/docs/#get-address-bookuser_id
     def get_address_book(self, user_id):
-        url = 'https://api.yesgraph.com/v0/address-book/' + str(user_id)
-        return self.api_get(url)
+        return self.get('/address-book/' + str(user_id))
 
     # documenation
     #    https://www.yesgraph.com/docs/#post-address-book
