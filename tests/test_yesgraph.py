@@ -12,9 +12,8 @@ def api():
 
 
 def test_base_url(api):
-    assert api.base_url == 'http://localhost:5001/v0/'
-
-    assert YesGraphAPI(TEST_KEY).base_url == 'https://api.yesgraph.com/v0/'
+    assert YesGraphAPI('foo').base_url == 'https://api.yesgraph.com/v0/'
+    assert YesGraphAPI('foo', 'this_is_a_test').base_url == 'this_is_a_test'
 
 
 def test_build_url(api):
