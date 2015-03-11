@@ -5,12 +5,6 @@ import requests
 import six
 
 
-# TODOs
-# -- add documentation links and a bit of info for each endpoint
-# -- figure out a way to encapsulate the parameters representing an addressbook source
-# -- complete implementation of invite sent/accepted and users post/get
-
-
 class YesGraphAPI(object):
 
     def __init__(self, secret_key, url='https://api.yesgraph.com/v0/'):
@@ -47,7 +41,6 @@ class YesGraphAPI(object):
 
         return resp.json()
 
-    # ENDPOINTS
     def get_address_book(self, user_id):
         """
         Wrapped method for GET of /address-book endpoint
