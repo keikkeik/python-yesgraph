@@ -72,24 +72,23 @@ class YesGraphAPI(object):
 
     # documenation
     #    https://www.yesgraph.com/docs/#post-address-book
-    def post_address_book(self, user_id, entries, source_name=None,
-                         source_email=None, source_type=None):
-        url = 'https://api.yesgraph.com/v0/address-book'
+    def post_address_book(self, user_id, entries, source_name=None, source_email=None,
+                          source_type=None):
         source = {}
         if source_name:
             source['name'] = source_name
+
         if source_email:
-            source['name'] = source_email
-        if source_type:
-            source['type'] = source_type
+            source['email'] = source_email
+
+        source['type'] = source_type if source_type else 'gmail'
 
         payload = json.dumps({
             'user_id': str(user_id),
             'source': source,
             'entries': entries,
         })
-
-        return self.api_post(url, payload)
+        return self.post('/address-book', payload)
 
     def client_key(self, user_id):
         url = 'https://api.yesgraph.com/v0/client-key'
