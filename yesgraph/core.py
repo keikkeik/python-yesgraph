@@ -132,7 +132,7 @@ class YesGraphAPI(object):
 
         return self.post('/invite-accepted', payload)
 
-    def invite_sent(self):
+    def post_invite_sent(self):
         raise NotImplementedError
 
     def test(self):
