@@ -1,6 +1,7 @@
 import json
 
 import requests
+from cached_property import cached_property
 
 
 # TODOs
@@ -21,7 +22,7 @@ class YesGraphAPI(object):
         }
         self.base_url = 'http://localhost:5001/v0'
 
-    @property
+    @cached_property
     def session(self):
         session = requests.Session()
         session.headers.update({
