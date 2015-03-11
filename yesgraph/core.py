@@ -65,15 +65,21 @@ class YesGraphAPI(object):
             return data
 
     # ENDPOINTS
-    # documentation
-    #   https://www.yesgraph.com/docs/#get-address-bookuser_id
     def get_address_book(self, user_id):
+        """
+        Wrapped method for GET of /address-book endpoint
+
+        Documentation - https://www.yesgraph.com/docs/#get-address-bookuser_id
+        """
         return self.get('/address-book/' + str(user_id))
 
-    # documenation
-    #    https://www.yesgraph.com/docs/#post-address-book
     def post_address_book(self, user_id, entries, source_name=None,
                           source_email=None, source_type=None):
+        """
+        Wrapped method for POST of /address-book endpoint
+
+        Documentation - https://www.yesgraph.com/docs/#post-address-book
+        """
         source = {}
         if source_name:
             source['name'] = source_name
