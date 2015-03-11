@@ -22,10 +22,10 @@ class YesGraphAPI(object):
         })
         self.session = s
 
-    def build_url(self, base, path):
+    def _build_url(self, base, path):
         return '{}/{}'.format(base.rstrip('/'), path.lstrip('/'))
 
-    def request(self, verb, endpoint, data=None):
+    def _request(self, verb, endpoint, data=None):
         """
         Generic request wrapper method that sends an HTTP request.
 
@@ -36,7 +36,7 @@ class YesGraphAPI(object):
         if isinstance(data, dict):
             data = json.dumps(data)
 
-        url = self.build_url(self.base_url, endpoint)
+        url = self._build_url(self.base_url, endpoint)
         resp = getattr(self.session, verb)(url, data=data)
         if not resp.ok:
             resp.raise_for_status()
@@ -50,7 +50,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-address-bookuser_id
         """
-        return self.request('get', '/address-book/{}'.format(str(user_id)))
+        return self._request('get', '/address-book/{}'.format(str(user_id)))
 
     def post_address_book(self, user_id, entries, source_name=None,
                           source_email=None, source_type=None):
@@ -73,7 +73,7 @@ class YesGraphAPI(object):
             'source': source,
             'entries': entries,
         })
-        return self.request('post', '/address-book', payload)
+        return self._request('post', '/address-book', payload)
 
     def get_client_key(self, user_id):
         """
@@ -82,7 +82,7 @@ class YesGraphAPI(object):
         Documentation - https://www.yesgraph.com/docs/#obtaining-a-client-api-key
         """
         payload = json.dumps({'user_id': str(user_id)})
-        return self.request('post', '/client-key', payload)
+        return self._request('post', '/client-key', payload)
 
     def get_contacts(self, user_id):
         """
@@ -90,7 +90,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-contactsuser_id
         """
-        return self.request('get', '/contacts/{}'.format(str(user_id)))
+        return self._request('get', '/contacts/{}'.format(str(user_id)))
 
     def post_invite_accepted(self, new_user_id, invitee_id, invitee_type,
                              accepted_at=None):
@@ -109,7 +109,7 @@ class YesGraphAPI(object):
 
         payload = json.dumps(data)
 
-        return self.request('post', '/invite-accepted', payload)
+        return self._request('post', '/invite-accepted', payload)
 
     def post_invite_sent(self, user_id, invitee_id, invitee_type, sent_at):
         """
@@ -127,7 +127,7 @@ class YesGraphAPI(object):
 
         payload = json.dumps(data)
 
-        return self.request('post', '/invite-sent', payload)
+        return self._request('post', '/invite-sent', payload)
 
     def test(self):
         """
@@ -135,7 +135,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-test
         """
-        return self.request('get', '/test')
+        return self._request('get', '/test')
 
     def get_users(self):
         """
@@ -143,7 +143,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-users
         """
-        return self.request('get', '/users')
+        return self._request('get', '/users')
 
     def post_users(self, entries):
         """
@@ -152,4 +152,4 @@ class YesGraphAPI(object):
         Documentation - https://www.yesgraph.com/docs/#post-users
         """
         payload = json.dumps(entries)
-        return self.request('post', '/users', payload)
+        return self._request('post', '/users', payload)
