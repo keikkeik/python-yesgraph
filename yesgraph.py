@@ -1,6 +1,8 @@
+import collections
 import json
 
 import requests
+import six
 
 
 # TODOs
@@ -25,7 +27,7 @@ class YesGraphAPI(object):
     def _build_url(self, base, path):
         return '{}/{}'.format(base.rstrip('/'), path.lstrip('/'))
 
-    def _request(self, verb, endpoint, data=None):
+    def _request(self, verb, endpoint, payload=None):
         """
         Generic request wrapper method that sends an HTTP request.
 
@@ -33,11 +35,13 @@ class YesGraphAPI(object):
         api = YesGraphAPI('<secret_key_here>')
         api.request('get', '/test')
         """
-        if isinstance(data, dict):
-            data = json.dumps(data)
+        is_iterable = isinstance(payload, (dict, collections.Iterable))
+        is_stringy = isinstance(payload, six.string_types)
+        if payload is not None and (not is_iterable or is_stringy):
+            raise TypeError('requests require non-string iterables')
 
         url = self._build_url(self.base_url, endpoint)
-        resp = self.session.request(verb, url, data=data)
+        resp = self.session.request(verb, url, data=json.dumps(payload))
         if not resp.ok:
             resp.raise_for_status()
 
@@ -68,11 +72,11 @@ class YesGraphAPI(object):
 
         source['type'] = source_type if source_type else 'gmail'
 
-        payload = json.dumps({
+        payload = {
             'user_id': str(user_id),
             'source': source,
             'entries': entries,
-        })
+        }
         return self._request('post', '/address-book', payload)
 
     def get_client_key(self, user_id):
@@ -81,8 +85,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#obtaining-a-client-api-key
         """
-        payload = json.dumps({'user_id': str(user_id)})
-        return self._request('post', '/client-key', payload)
+        return self._request('post', '/client-key', {'user_id': str(user_id)})
 
     def get_contacts(self, user_id):
         """
@@ -99,15 +102,13 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#post-invite-accepted
         """
-        data = {
+        payload = {
             'new_user_id': str(new_user_id),
             'invitee_id': str(invitee_id),
             'invitee_type': invitee_type,
         }
         if accepted_at:
-            data['accepted_at'] = accepted_at
-
-        payload = json.dumps(data)
+            payload['accepted_at'] = accepted_at
 
         return self._request('post', '/invite-accepted', payload)
 
@@ -117,15 +118,13 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#post-invite-sent
         """
-        data = {
+        payload = {
             'user_id': str(user_id),
             'invitee_id': str(invitee_id),
             'invitee_type': invitee_type,
         }
         if sent_at:
-            data['sent_at'] = sent_at
-
-        payload = json.dumps(data)
+            payload['sent_at'] = sent_at
 
         return self._request('post', '/invite-sent', payload)
 
@@ -151,5 +150,4 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#post-users
         """
-        payload = json.dumps(entries)
-        return self._request('post', '/users', payload)
+        return self._request('post', '/users', entries)

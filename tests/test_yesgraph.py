@@ -45,6 +45,11 @@ def test_build_url(api):
     assert api._build_url('foo', '/bar') == expected_url
 
 
+def test_build_json_in_request(api):
+    with pytest.raises(TypeError):
+        api._request('accidental json')
+
+
 def test_test_endpoint(api):
     assert api.test() == {}
 

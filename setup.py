@@ -4,7 +4,7 @@ Python wrapper for the YesGraph API.
 from setuptools import setup
 
 
-dependencies = ['requests']
+dependencies = ['requests', 'six']
 
 setup(
     name='yesgraph',
