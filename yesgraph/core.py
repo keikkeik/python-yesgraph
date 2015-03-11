@@ -96,7 +96,7 @@ class YesGraphAPI(object):
         })
         return self.post('/address-book', payload)
 
-    def client_key(self, user_id):
+    def generate_client_key(self, user_id):
         url = 'https://api.yesgraph.com/v0/client-key'
         payload = json.dumps({'user_id': '1', })
         return self.api_post(url, payload)
