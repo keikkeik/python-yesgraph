@@ -105,9 +105,13 @@ class YesGraphAPI(object):
         payload = json.dumps({'user_id': str(user_id)})
         return self.post('/client-key', payload)
 
-    def get_contacts(self):
-        url = 'https://api.yesgraph.com/v0/contacts/1'
-        return self.api_get(url)
+    def get_contacts(self, user_id):
+        """
+        Wrapped method for GET of /contacts endpoint
+
+        Documentation - https://www.yesgraph.com/docs/#get-contactsuser_id
+        """
+        return self.get('/contacts/' + str(user_id))
 
     def invite_accepted(self):
         raise NotImplementedError
