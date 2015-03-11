@@ -151,8 +151,12 @@ class YesGraphAPI(object):
         return self.post('/invite-sent', payload)
 
     def test(self):
-        url = 'https://api.yesgraph.com/v0/test'
-        return self.api_get(url)
+        """
+        Wrapped method for GET of /test endpoint
+
+        Documentation - https://www.yesgraph.com/docs/#get-test
+        """
+        return self.get('/test')
 
     def users_get(self):
         raise NotImplementedError
