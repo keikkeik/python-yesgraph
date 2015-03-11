@@ -166,5 +166,11 @@ class YesGraphAPI(object):
         """
         return self.get('/users')
 
-    def post_users(self):
-        raise NotImplementedError
+    def post_users(self, entries):
+        """
+        Wrapped method for POST of users endpoint
+
+        Documentation - https://www.yesgraph.com/docs/#post-users
+        """
+        payload = json.dumps(entries)
+        return self.post('/users', payload)
