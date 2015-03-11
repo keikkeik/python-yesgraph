@@ -1,0 +1,4 @@
+#
+# Please don't use this file for packages.
+# Instead, declare the dependencies in setup.py directly.
+#
