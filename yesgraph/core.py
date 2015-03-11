@@ -6,9 +6,7 @@ from cached_property import cached_property
 
 # TODOs
 # -- add documentation links and a bit of info for each endpoint
-# -- abstract base API url from endpoint names
 # -- figure out a way to encapsulate the parameters representing an addressbook source
-# -- parse JSON returns when logical and useful, like returning the client key
 # -- complete implementation of invite sent/accepted and users post/get
 
 
