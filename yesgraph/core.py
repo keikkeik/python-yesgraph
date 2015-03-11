@@ -97,9 +97,8 @@ class YesGraphAPI(object):
         return self.post('/address-book', payload)
 
     def generate_client_key(self, user_id):
-        url = 'https://api.yesgraph.com/v0/client-key'
-        payload = json.dumps({'user_id': '1', })
-        return self.api_post(url, payload)
+        payload = json.dumps({'user_id': str(user_id)})
+        return self.post('/client-key', payload)
 
     def contacts(self):
         url = 'https://api.yesgraph.com/v0/contacts/1'
