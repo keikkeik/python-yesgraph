@@ -72,8 +72,8 @@ class YesGraphAPI(object):
 
     # documenation
     #    https://www.yesgraph.com/docs/#post-address-book
-    def post_address_book(self, user_id, entries, source_name=None, source_email=None,
-                          source_type=None):
+    def post_address_book(self, user_id, entries, source_name=None,
+                          source_email=None, source_type=None):
         source = {}
         if source_name:
             source['name'] = source_name
