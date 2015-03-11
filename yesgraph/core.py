@@ -16,10 +16,6 @@ class YesGraphAPI(object):
 
     def __init__(self, secret_key, url='https://api.yesgraph.com/v0'):
         self.secret_key = secret_key
-        self.headers = {
-            'Authorization': 'Bearer {}'.format(self.secret_key),
-            'Content-Type': 'application/json',
-        }
         self.base_url = url
 
     @cached_property
