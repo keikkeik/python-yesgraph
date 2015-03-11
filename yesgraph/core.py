@@ -105,7 +105,7 @@ class YesGraphAPI(object):
         payload = json.dumps({'user_id': str(user_id)})
         return self.post('/client-key', payload)
 
-    def contacts(self):
+    def get_contacts(self):
         url = 'https://api.yesgraph.com/v0/contacts/1'
         return self.api_get(url)
 
