@@ -1,3 +1,5 @@
+# -*- coding: utf-8
+
 entries = [
     {"name": "I. Kirigin", "email": "ivan@yesgraph.com"},
     {"name": "Jonathan Chu", "email": "jonathan.chu@me.com"},
