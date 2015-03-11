@@ -6,7 +6,7 @@ Python wrapper for the YesGraph API.
 
 The easiest way to install is by using pip or easy_install to pull it from PyPI:
 
-    pip install yesgraph
+    pip install yesgraph (TODO)
 
 You may also use git to clone the repository from GitHub and install it manually:
 
