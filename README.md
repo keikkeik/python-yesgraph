@@ -10,7 +10,7 @@ The easiest way to install is by using pip or easy_install to pull it from PyPI:
 
 You may also use git to clone the repository from GitHub and install it manually:
 
-    git clone https://github.com/yesgraph/python-yesgraph.git#egg=yesgraph
+    git clone https://github.com/YesGraph/python-yesgraph.git
     cd python-yesgraph
     python setup.py install
 
