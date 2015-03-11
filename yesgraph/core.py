@@ -1,4 +1,8 @@
 import json
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 
 import requests
 from cached_property import cached_property
@@ -36,7 +40,8 @@ class YesGraphAPI(object):
         if isinstance(data, dict):
             data = json.dumps(data)
 
-        resp = getattr(self.session, verb)(self.base_url + endpoint, data=data)
+        url = urljoin(self.base_url, endpoint)
+        resp = getattr(self.session, verb)(url, data=data)
         if not resp.ok:
             resp.raise_for_status()
 
