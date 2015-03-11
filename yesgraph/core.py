@@ -113,7 +113,7 @@ class YesGraphAPI(object):
         """
         return self.get('/contacts/' + str(user_id))
 
-    def invite_accepted(self):
+    def post_invite_accepted(self):
         raise NotImplementedError
 
     def invite_sent(self):
