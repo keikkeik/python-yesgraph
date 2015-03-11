@@ -96,7 +96,7 @@ class YesGraphAPI(object):
         })
         return self.post('/address-book', payload)
 
-    def generate_client_key(self, user_id):
+    def get_client_key(self, user_id):
         """
         Wrapped method for POST of /client-key endpoint
 
