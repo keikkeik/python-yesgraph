@@ -166,5 +166,5 @@ class YesGraphAPI(object):
         """
         return self.get('/users')
 
-    def users_post(self):
+    def post_users(self):
         raise NotImplementedError
