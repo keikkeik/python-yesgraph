@@ -1,7 +1,8 @@
 """
 Python wrapper for the YesGraph API.
 """
-from setuptools import find_packages, setup
+from setuptools import setup
+
 
 dependencies = ['requests']
 
@@ -13,7 +14,7 @@ setup(
     author_email='team@yesgraph.com',
     description='Python wrapper for the YesGraph API.',
     long_description=__doc__,
-    packages=find_packages(exclude=['tests']),
+    py_modules=['yesgraph'],
     include_package_data=True,
     zip_safe=False,
     platforms='any',
