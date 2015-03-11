@@ -72,7 +72,7 @@ class YesGraphAPI(object):
 
     # documenation
     #    https://www.yesgraph.com/docs/#post-address-book
-    def addressbook_post(self, user_id, entries, source_name=None,
+    def post_address_book(self, user_id, entries, source_name=None,
                          source_email=None, source_type=None):
         url = 'https://api.yesgraph.com/v0/address-book'
         source = {}
