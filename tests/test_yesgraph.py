@@ -3,15 +3,37 @@ from yesgraph import YesGraphAPI
 
 from .data import entries, users
 
-TEST_KEY = 'test-WzEsMSwiVGVzdFllc0dyYXBoIl0.B7QyrQ.0T5kC7lIdQ1zrOzx-Ra746zusKQ'
+
+class Response:
+
+    def __init__(self, status, *args, **kwargs):
+        self.status = status
+
+    def json(self):
+        return {}
+
+    @property
+    def ok(self):
+        return True
+
+
+class DummySession:
+    def request(self, method, *args, **kwargs):
+        if method.lower() == 'get':
+            return Response(status=200)
+
+        if method.lower() == 'post':
+            return Response(status=201)
 
 
 @pytest.fixture
 def api():
-    return YesGraphAPI(TEST_KEY, url='http://localhost:5001/v0/')
+    yg_api = YesGraphAPI('foo')
+    yg_api.session = DummySession()
+    return yg_api
 
 
-def test_base_url(api):
+def test_base_url():
     assert YesGraphAPI('foo').base_url == 'https://api.yesgraph.com/v0/'
     assert YesGraphAPI('foo', 'this_is_a_test').base_url == 'this_is_a_test'
 
@@ -24,36 +46,36 @@ def test_build_url(api):
 
 
 def test_test_endpoint(api):
-    assert api.test()
+    assert api.test() == {}
 
 
 def test_get_address_book(api):
-    assert api.get_address_book(1)
+    assert api.get_address_book(1) == {}
 
 
 def test_post_address_book(api):
-    assert api.post_address_book(1, entries, 'Jonathan Chu', 'jonathan@yesgraph.com', 'gmail')
+    assert api.post_address_book(1, entries, 'Jonathan Chu', 'jonathan@yesgraph.com', 'gmail') == {}
 
 
 def test_get_client_key(api):
-    assert api.get_client_key(1)
+    assert api.get_client_key(1) == {}
 
 
 def test_get_contacts(api):
-    assert api.get_contacts(1)
+    assert api.get_contacts(1) == {}
 
 
 def test_post_invite_accepted(api):
-    assert api.post_invite_accepted(42, 'john.smith@gmail.com', 'email', '2015-03-03T20:16:12+00:00')
+    assert api.post_invite_accepted(42, 'john.smith@gmail.com', 'email', '2015-03-03T20:16:12+00:00') == {}
 
 
 def test_post_invite_sent(api):
-    assert api.post_invite_sent(42, 'john.smith@gmail.com', 'email', '2015-02-28T20:16:12+00:00')
+    assert api.post_invite_sent(42, 'john.smith@gmail.com', 'email', '2015-02-28T20:16:12+00:00') == {}
 
 
 def test_get_users(api):
-    assert api.get_users()
+    assert api.get_users() == {}
 
 
 def test_post_users(api):
-    assert api.post_users(users)
+    assert api.post_users(users) == {}
