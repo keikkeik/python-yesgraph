@@ -59,7 +59,7 @@ class YesGraphAPI(object):
 
         resp = self.session.post(self.base_url + endpoint, data=data)
         if not resp.ok:
-            resp.rase_for_status()
+            resp.raise_for_status()
         else:
             data = resp.json()
             return data
