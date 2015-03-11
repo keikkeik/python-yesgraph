@@ -5,7 +5,6 @@ except ImportError:
     from urlparse import urljoin
 
 import requests
-from cached_property import cached_property
 
 
 # TODOs
@@ -23,14 +22,12 @@ class YesGraphAPI(object):
             url = '{}/'.format(url)
         self.base_url = url
 
-    @cached_property
-    def session(self):
-        session = requests.Session()
-        session.headers.update({
+        s = requests.Session()
+        s.headers.update({
             'Authorization': 'Bearer {}'.format(self.secret_key),
             'Content-Type': 'application/json',
         })
-        return session
+        self.session = s
 
     def request(self, verb, endpoint, data=None):
         """
