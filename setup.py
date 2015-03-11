@@ -3,7 +3,7 @@ Python wrapper for the YesGraph API.
 """
 from setuptools import find_packages, setup
 
-dependencies = ['requests']
+dependencies = ['requests', 'cached-property']
 
 setup(
     name='yesgraph',
