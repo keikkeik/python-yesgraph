@@ -64,12 +64,6 @@ class YesGraphAPI(object):
             data = resp.json()
             return data
 
-    def api_get(self, url):
-        return requests.get(url, headers=self.headers)
-
-    def api_post(self, url, payload):
-        return requests.post(url, data=payload, headers=self.headers)
-
     # ENDPOINTS
     # documentation
     #   https://www.yesgraph.com/docs/#get-address-bookuser_id
