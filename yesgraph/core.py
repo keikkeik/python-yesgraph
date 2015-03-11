@@ -158,7 +158,7 @@ class YesGraphAPI(object):
         """
         return self.get('/test')
 
-    def users_get(self):
+    def get_users(self):
         raise NotImplementedError
 
     def users_post(self):
