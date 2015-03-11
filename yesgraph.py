@@ -37,7 +37,7 @@ class YesGraphAPI(object):
             data = json.dumps(data)
 
         url = self._build_url(self.base_url, endpoint)
-        resp = getattr(self.session, verb)(url, data=data)
+        resp = self.session.request(verb, url, data=data)
         if not resp.ok:
             resp.raise_for_status()
 
