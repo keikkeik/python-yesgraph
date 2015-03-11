@@ -16,8 +16,11 @@ from cached_property import cached_property
 
 class YesGraphAPI(object):
 
-    def __init__(self, secret_key, url='https://api.yesgraph.com/v0'):
+    def __init__(self, secret_key, url='https://api.yesgraph.com/v0/'):
         self.secret_key = secret_key
+
+        if not url.endswith('/'):
+            url = '{}/'.format(url)
         self.base_url = url
 
     @cached_property
@@ -54,7 +57,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-address-bookuser_id
         """
-        return self.request('get', '/address-book/' + str(user_id))
+        return self.request('get', 'address-book/' + str(user_id))
 
     def post_address_book(self, user_id, entries, source_name=None,
                           source_email=None, source_type=None):
@@ -77,7 +80,7 @@ class YesGraphAPI(object):
             'source': source,
             'entries': entries,
         })
-        return self.request('post', '/address-book', payload)
+        return self.request('post', 'address-book', payload)
 
     def get_client_key(self, user_id):
         """
@@ -86,7 +89,7 @@ class YesGraphAPI(object):
         Documentation - https://www.yesgraph.com/docs/#obtaining-a-client-api-key
         """
         payload = json.dumps({'user_id': str(user_id)})
-        return self.request('post', '/client-key', payload)
+        return self.request('post', 'client-key', payload)
 
     def get_contacts(self, user_id):
         """
@@ -94,7 +97,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-contactsuser_id
         """
-        return self.request('get', '/contacts/' + str(user_id))
+        return self.request('get', 'contacts/' + str(user_id))
 
     def post_invite_accepted(self, new_user_id, invitee_id, invitee_type,
                              accepted_at=None):
@@ -113,7 +116,7 @@ class YesGraphAPI(object):
 
         payload = json.dumps(data)
 
-        return self.request('post', '/invite-accepted', payload)
+        return self.request('post', 'invite-accepted', payload)
 
     def post_invite_sent(self, user_id, invitee_id, invitee_type, sent_at):
         """
@@ -131,7 +134,7 @@ class YesGraphAPI(object):
 
         payload = json.dumps(data)
 
-        return self.request('post', '/invite-sent', payload)
+        return self.request('post', 'invite-sent', payload)
 
     def test(self):
         """
@@ -139,7 +142,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-test
         """
-        return self.request('get', '/test')
+        return self.request('get', 'test')
 
     def get_users(self):
         """
@@ -147,7 +150,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-users
         """
-        return self.request('get', '/users')
+        return self.request('get', 'users')
 
     def post_users(self, entries):
         """
@@ -156,4 +159,4 @@ class YesGraphAPI(object):
         Documentation - https://www.yesgraph.com/docs/#post-users
         """
         payload = json.dumps(entries)
-        return self.request('post', '/users', payload)
+        return self.request('post', 'users', payload)

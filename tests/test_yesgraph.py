@@ -8,7 +8,7 @@ TEST_KEY = 'test-WzEsMSwiVGVzdFllc0dyYXBoIl0.B7QyrQ.0T5kC7lIdQ1zrOzx-Ra746zusKQ'
 
 @pytest.fixture
 def api():
-    return YesGraphAPI(TEST_KEY, url='http://localhost:5001/v0')
+    return YesGraphAPI(TEST_KEY, url='http://localhost:5001/v0/')
 
 
 def test_test_endpoint(api):
