@@ -11,6 +11,19 @@ def api():
     return YesGraphAPI(TEST_KEY, url='http://localhost:5001/v0/')
 
 
+def test_base_url(api):
+    assert api.base_url == 'http://localhost:5001/v0/'
+
+    assert YesGraphAPI(TEST_KEY).base_url == 'https://api.yesgraph.com/v0/'
+
+
+def test_build_url(api):
+    expected_url = 'foo/bar'
+    assert api._build_url('foo', 'bar') == expected_url
+    assert api._build_url('foo/', 'bar') == expected_url
+    assert api._build_url('foo', '/bar') == expected_url
+
+
 def test_test_endpoint(api):
     assert api.test()
 
