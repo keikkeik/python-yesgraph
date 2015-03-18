@@ -25,6 +25,8 @@ class DummySession:
         if method.lower() == 'post':
             return Response(status=201)
 
+        raise RuntimeError('Unexpected code path')
+
 
 @pytest.fixture
 def api():
