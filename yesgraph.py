@@ -80,14 +80,6 @@ class YesGraphAPI(object):
         """
         return self._request('post', '/client-key', {'user_id': str(user_id)})
 
-    def get_contacts(self, user_id):
-        """
-        Wrapped method for GET of /contacts endpoint
-
-        Documentation - https://www.yesgraph.com/docs/#get-contactsuser_id
-        """
-        return self._request('get', '/contacts/{}'.format(str(user_id)))
-
     def post_invite_accepted(self, invitee_id, invitee_type, accepted_at=None,
                              new_user_id=None):
         """
