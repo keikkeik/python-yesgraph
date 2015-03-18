@@ -8,7 +8,9 @@ env:
     - PIP_WHEEL_DIR=$HOME/.cache/pip/wheels
     - PIP_FIND_LINKS=file://$HOME/.cache/pip/wheels
   matrix:
+    - TOXENV=py26
     - TOXENV=py27
+    - TOXENV=py33
     - TOXENV=py34
     - TOXENV=pypy
     - TOXENV=flake8
