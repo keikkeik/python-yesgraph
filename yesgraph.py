@@ -88,20 +88,21 @@ class YesGraphAPI(object):
         """
         return self._request('get', '/contacts/{}'.format(str(user_id)))
 
-    def post_invite_accepted(self, new_user_id, invitee_id, invitee_type,
-                             accepted_at=None):
+    def post_invite_accepted(self, invitee_id, invitee_type, accepted_at=None,
+                             new_user_id=None):
         """
         Wrapped method for POST of /invite-accepted endpoint
 
         Documentation - https://www.yesgraph.com/docs/#post-invite-accepted
         """
         payload = {
-            'new_user_id': str(new_user_id),
             'invitee_id': str(invitee_id),
             'invitee_type': invitee_type,
         }
         if accepted_at:
             payload['accepted_at'] = accepted_at
+        if new_user_id:
+            payload['new_user_id'] = str(new_user_id)
 
         return self._request('post', '/invite-accepted', payload)
 
