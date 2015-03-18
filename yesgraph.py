@@ -13,13 +13,13 @@ class YesGraphAPI(object):
 
         s = requests.Session()
         s.headers.update({
-            'Authorization': 'Bearer {}'.format(self.secret_key),
+            'Authorization': 'Bearer {0}'.format(self.secret_key),
             'Content-Type': 'application/json',
         })
         self.session = s
 
     def _build_url(self, base, path):
-        return '{}/{}'.format(base.rstrip('/'), path.lstrip('/'))
+        return '{0}/{1}'.format(base.rstrip('/'), path.lstrip('/'))
 
     def _request(self, verb, endpoint, payload=None):
         """
@@ -47,7 +47,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-address-bookuser_id
         """
-        return self._request('get', '/address-book/{}'.format(str(user_id)))
+        return self._request('get', '/address-book/{0}'.format(str(user_id)))
 
     def post_address_book(self, user_id, entries, source_name=None,
                           source_email=None, source_type=None):
