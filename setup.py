@@ -8,7 +8,7 @@ dependencies = ['requests', 'six']
 
 setup(
     name='yesgraph',
-    version='0.1.2',
+    version='0.1.3',
     url='https://github.com/yesgraph/python-yesgraph',
     author='YesGraph',
     author_email='team@yesgraph.com',
