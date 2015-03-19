@@ -27,10 +27,21 @@ def api():
     return yg_api
 
 
-def test_base_url():
-    assert YesGraphAPI('foo').base_url == 'https://api.yesgraph.com/v0/'
-    assert YesGraphAPI('foo', 'this_is_a_test').base_url == 'this_is_a_test'
+def test_base_url(api):
+    """Providing a base URL should work."""
+    # Default base URL
+    assert api.base_url == 'https://api.yesgraph.com/v0/'
 
+    req = api._prepare_request('GET', '/test')
+    assert req.url == 'https://api.yesgraph.com/v0/test'
+
+    # Custom base URL
+    api = YesGraphAPI(secret_key='dummy', base_url='http://www.example.org')
+    assert api.base_url == 'http://www.example.org'
+
+    # Test base URL ends up in requests
+    req = api._prepare_request('GET', '/test')
+    assert req.url == 'http://www.example.org/test'
 
 
 @pytest.mark.xfail

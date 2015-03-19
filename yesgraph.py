@@ -1,7 +1,8 @@
 import collections
 import json
 
-import requests
+from requests import Request, Session
+
 import six
 
 
@@ -10,16 +11,20 @@ class YesGraphAPI(object):
     def __init__(self, secret_key, base_url='https://api.yesgraph.com/v0/'):
         self.secret_key = secret_key
         self.base_url = base_url
+        self.session = Session()
 
-        s = requests.Session()
-        s.headers.update({
+    def _build_url(self, endpoint):
+        return '/'.join((self.base_url.rstrip('/'), endpoint.lstrip('/')))
+
+    def _prepare_request(self, method, endpoint, data=None):
+        headers = {
             'Authorization': 'Bearer {0}'.format(self.secret_key),
             'Content-Type': 'application/json',
-        })
-        self.session = s
-
-    def _build_url(self, base, path):
-        return '{0}/{1}'.format(base.rstrip('/'), path.lstrip('/'))
+        }
+        url = self._build_url(endpoint)
+        req = Request(method, url, data=data, headers=headers)
+        prepped_req = self.session.prepare_request(req)
+        return prepped_req
 
     def _request(self, verb, endpoint, payload=None):
         """
