@@ -120,7 +120,6 @@ def test_endpoint_post_address_book_with_source_info(api):
     }
 
 
-@pytest.mark.xfail
 def test_endpoint_post_invite_sent(api):
     # Simplest invocation
     req = api.post_invite_sent(user_id=42, invitee_id='john.smith@gmail.com')
