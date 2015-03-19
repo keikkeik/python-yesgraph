@@ -118,13 +118,13 @@ def test_endpoint_post_address_book_with_source_info(api):
 
 
 @pytest.mark.xfail
-def test_endpoint_post_invite_accepted(api):
-    assert api.post_invite_accepted(42, 'john.smith@gmail.com', 'email', '2015-03-03T20:16:12+00:00') == {}
+def test_endpoint_post_invite_sent(api):
+    assert api.post_invite_sent(42, 'john.smith@gmail.com', 'email', '2015-02-28T20:16:12+00:00') == {}
 
 
 @pytest.mark.xfail
-def test_endpoint_post_invite_sent(api):
-    assert api.post_invite_sent(42, 'john.smith@gmail.com', 'email', '2015-02-28T20:16:12+00:00') == {}
+def test_endpoint_post_invite_accepted(api):
+    assert api.post_invite_accepted(42, 'john.smith@gmail.com', 'email', '2015-03-03T20:16:12+00:00') == {}
 
 
 @pytest.mark.xfail
