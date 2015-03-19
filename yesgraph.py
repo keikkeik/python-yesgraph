@@ -48,6 +48,14 @@ class YesGraphAPI(object):
         resp.raise_for_status()
         return resp.json()
 
+    def get_client_key(self, user_id):
+        """
+        Wrapped method for POST of /client-key endpoint
+
+        Documentation - https://www.yesgraph.com/docs/#obtaining-a-client-api-key
+        """
+        return self._request('POST', '/client-key', {'user_id': str(user_id)})
+
     def get_address_book(self, user_id):
         """
         Wrapped method for GET of /address-book endpoint
@@ -78,14 +86,6 @@ class YesGraphAPI(object):
             'entries': entries,
         }
         return self._request('post', '/address-book', payload)
-
-    def get_client_key(self, user_id):
-        """
-        Wrapped method for POST of /client-key endpoint
-
-        Documentation - https://www.yesgraph.com/docs/#obtaining-a-client-api-key
-        """
-        return self._request('post', '/client-key', {'user_id': str(user_id)})
 
     def post_invite_accepted(self, invitee_id, invitee_type, accepted_at=None,
                              new_user_id=None):

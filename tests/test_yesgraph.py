@@ -62,9 +62,9 @@ def test_endpoint_test(api):
     assert req.body is None
 
 
-@pytest.mark.xfail
 def test_endpoint_get_client_key(api):
-    assert api.get_client_key(1) == {}
+    req = api.get_client_key(user_id=1234)
+    assert req.body == '{"user_id": "1234"}'
 
 
 @pytest.mark.xfail
