@@ -4,31 +4,9 @@ from yesgraph import YesGraphAPI
 from .data import entries, users
 
 
-class Response:
-
-    def __init__(self, status, *args, **kwargs):
-        self.status = status
-
-    def json(self):
-        return {}
-
-    def raise_for_status(self):
-        pass
-
-    @property
-    def ok(self):
-        return True
-
-
 class DummySession:
     def request(self, method, *args, **kwargs):
-        if method.lower() == 'get':
-            return Response(status=200)
-
-        if method.lower() == 'post':
-            return Response(status=201)
-
-        raise RuntimeError('Unexpected code path')
+        raise RuntimeError('You should not be making actual requests from the test suite!')
 
 
 @pytest.fixture
