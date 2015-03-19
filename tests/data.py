@@ -1,19 +1,5 @@
 # -*- coding: utf-8
 
-entries = [
-    {"name": "I. Kirigin", "email": "ivan@yesgraph.com"},
-    {"name": "Jonathan Chu", "email": "jonathan.chu@me.com"},
-    {"name": "Heinz Schroeder", "email": "h.schroeder@gmail.com"},
-    {"email": "notifications+217658723@github.com"},
-    {"name": "George Hickman", "email": "george@yesgraph.com"},
-    {"name": "Ivan Kirgin", "email": "ivan@kirigin.com"},
-    {"name": "john doe"},
-    {"email": "ivan.kirigin+test@gmail.com"},
-    {"email": "me@nvie.com"},
-    {"name": "鄭舜文"},
-    {"name": "Heinz Schröder"}
-]
-
 users = [
     {
         "id": 32,

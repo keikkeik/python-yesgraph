@@ -74,28 +74,27 @@ class YesGraphAPI(object):
         """
         return self._request('GET', '/address-book/{0}'.format(str(user_id)))
 
-    def post_address_book(self, user_id, entries, source_name=None,
-                          source_email=None, source_type=None):
+    def post_address_book(self, user_id, entries,
+                          source_type, source_name=None, source_email=None):
         """
         Wrapped method for POST of /address-book endpoint
 
         Documentation - https://www.yesgraph.com/docs/#post-address-book
         """
-        source = {}
+        source = {
+            'type': source_type,
+        }
         if source_name:
             source['name'] = source_name
-
         if source_email:
             source['email'] = source_email
 
-        source['type'] = source_type if source_type else 'gmail'
-
-        payload = {
+        data = {
             'user_id': str(user_id),
             'source': source,
             'entries': entries,
         }
-        return self._request('POST', '/address-book', payload)
+        return self._request('POST', '/address-book', data)
 
     def post_invite_accepted(self, invitee_id, invitee_type, accepted_at=None,
                              new_user_id=None):

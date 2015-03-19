@@ -1,7 +1,9 @@
+import json
+
 import pytest
 from yesgraph import YesGraphAPI
 
-from .data import entries, users
+from .data import users
 
 
 class SafeYesGraphAPI(YesGraphAPI):
@@ -82,9 +84,37 @@ def test_endpoint_get_address_book(api):
     assert req.body is None
 
 
-@pytest.mark.xfail
 def test_endpoint_post_address_book(api):
-    assert api.post_address_book(1, entries, 'Jonathan Chu', 'jonathan@yesgraph.com', 'gmail') == {}
+    # Simplest invocation (without source info)
+    ENTRIES = [
+        {'name': 'Foo', 'email': 'foo@example.org'},
+        {'name': 'Bar', 'email': 'bar@example.org'},
+    ]
+    req = api.post_address_book(user_id=1234, entries=ENTRIES, source_type='gmail')
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/address-book'
+
+    postdata = json.loads(req.body)
+    assert postdata['user_id'] == '1234'
+    assert postdata['source'] == {'type': 'gmail'}
+    assert postdata['entries'] == ENTRIES
+
+
+def test_endpoint_post_address_book_with_source_info(api):
+    # Invocation with source info
+    ENTRIES = [
+        {'name': 'Foo', 'email': 'foo@example.org'},
+    ]
+    req = api.post_address_book(user_id=1234, entries=ENTRIES,
+                                source_type='ios', source_name='Mr. Test',
+                                source_email='test@example.org')
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/address-book'
+
+    postdata = json.loads(req.body)
+    assert postdata['user_id'] == '1234'
+    assert postdata['source'] == {'type': 'ios', 'name': 'Mr. Test', 'email': 'test@example.org'}
+    assert postdata['entries'] == ENTRIES
 
 
 @pytest.mark.xfail
