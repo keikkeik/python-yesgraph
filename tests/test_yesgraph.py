@@ -49,6 +49,11 @@ def test_secret_key(api):
     assert req.headers['Authorization'] == 'Bearer the-s3cr3t-key'
 
 
+def test_content_type(api):
+    req = api.test()  # could be _any_ request
+    assert req.headers['Content-Type'] == 'application/json'
+
+
 def test_endpoint_test(api):
     req = api.test()
     assert req.method == 'GET'
