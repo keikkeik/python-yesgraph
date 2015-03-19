@@ -11,7 +11,7 @@ class DummySession:
 
 @pytest.fixture
 def api():
-    yg_api = YesGraphAPI('foo')
+    yg_api = YesGraphAPI(secret_key='foo')
     yg_api.session = DummySession()
     return yg_api
 

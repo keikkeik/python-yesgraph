@@ -7,9 +7,9 @@ import six
 
 class YesGraphAPI(object):
 
-    def __init__(self, secret_key, url='https://api.yesgraph.com/v0/'):
+    def __init__(self, secret_key, base_url='https://api.yesgraph.com/v0/'):
         self.secret_key = secret_key
-        self.base_url = url
+        self.base_url = base_url
 
         s = requests.Session()
         s.headers.update({
