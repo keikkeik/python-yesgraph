@@ -75,9 +75,11 @@ def test_endpoint_get_client_key(api):
     assert req.body == '{"user_id": "1234"}'
 
 
-@pytest.mark.xfail
 def test_endpoint_get_address_book(api):
-    assert api.get_address_book(1) == {}
+    req = api.get_address_book(user_id=1234)
+    assert req.method == 'GET'
+    assert req.url == 'https://api.yesgraph.com/v0/address-book/1234'
+    assert req.body is None
 
 
 @pytest.mark.xfail
