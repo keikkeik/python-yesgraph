@@ -58,6 +58,11 @@ def test_endpoint_test(api):
 
 
 @pytest.mark.xfail
+def test_endpoint_get_client_key(api):
+    assert api.get_client_key(1) == {}
+
+
+@pytest.mark.xfail
 def test_endpoint_get_address_book(api):
     assert api.get_address_book(1) == {}
 
@@ -65,11 +70,6 @@ def test_endpoint_get_address_book(api):
 @pytest.mark.xfail
 def test_endpoint_post_address_book(api):
     assert api.post_address_book(1, entries, 'Jonathan Chu', 'jonathan@yesgraph.com', 'gmail') == {}
-
-
-@pytest.mark.xfail
-def test_endpoint_get_client_key(api):
-    assert api.get_client_key(1) == {}
 
 
 @pytest.mark.xfail
