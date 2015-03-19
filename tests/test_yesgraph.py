@@ -27,8 +27,14 @@ def api():
     return yg_api
 
 
+def test_build_url(api):
+    assert api._build_url('foo') == 'https://api.yesgraph.com/v0/foo'
+    assert api._build_url('foo/bar') == 'https://api.yesgraph.com/v0/foo/bar'
+    assert api._build_url('/test') == 'https://api.yesgraph.com/v0/test'
+    assert api._build_url('test') == 'https://api.yesgraph.com/v0/test'
+
+
 def test_base_url(api):
-    """Providing a base URL should work."""
     # Default base URL
     assert api.base_url == 'https://api.yesgraph.com/v0/'
 
@@ -42,13 +48,6 @@ def test_base_url(api):
     # Test base URL ends up in requests
     req = api._prepare_request('GET', '/test')
     assert req.url == 'http://www.example.org/test'
-
-
-def test_build_url(api):
-    assert api._build_url('foo') == 'https://api.yesgraph.com/v0/foo'
-    assert api._build_url('foo/bar') == 'https://api.yesgraph.com/v0/foo/bar'
-    assert api._build_url('/test') == 'https://api.yesgraph.com/v0/test'
-    assert api._build_url('test') == 'https://api.yesgraph.com/v0/test'
 
 
 @pytest.mark.xfail
