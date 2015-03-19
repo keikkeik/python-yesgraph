@@ -50,7 +50,10 @@ def test_secret_key(api):
 
 
 def test_content_type(api):
-    req = api.test()  # could be _any_ request
+    req = api._request('GET', '/foo')  # any GET request
+    assert 'Content-Type' not in req.headers
+
+    req = api._request('POST', '/foo')  # any POST request
     assert req.headers['Content-Type'] == 'application/json'
 
 
