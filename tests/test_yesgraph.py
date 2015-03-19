@@ -94,10 +94,11 @@ def test_endpoint_post_address_book(api):
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/address-book'
 
-    postdata = json.loads(req.body)
-    assert postdata['user_id'] == '1234'
-    assert postdata['source'] == {'type': 'gmail'}
-    assert postdata['entries'] == ENTRIES
+    assert json.loads(req.body) == {
+        'user_id': '1234',
+        'source': {'type': 'gmail'},
+        'entries': ENTRIES,
+    }
 
 
 def test_endpoint_post_address_book_with_source_info(api):
@@ -111,10 +112,11 @@ def test_endpoint_post_address_book_with_source_info(api):
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/address-book'
 
-    postdata = json.loads(req.body)
-    assert postdata['user_id'] == '1234'
-    assert postdata['source'] == {'type': 'ios', 'name': 'Mr. Test', 'email': 'test@example.org'}
-    assert postdata['entries'] == ENTRIES
+    assert json.loads(req.body) == {
+        'user_id': '1234',
+        'source': {'type': 'ios', 'name': 'Mr. Test', 'email': 'test@example.org'},
+        'entries': ENTRIES,
+    }
 
 
 @pytest.mark.xfail
