@@ -36,9 +36,7 @@ class YesGraphAPI(object):
 
         url = self._build_url(self.base_url, endpoint)
         resp = self.session.request(verb, url, data=json.dumps(payload))
-        if not resp.ok:
-            resp.raise_for_status()
-
+        resp.raise_for_status()
         return resp.json()
 
     def get_address_book(self, user_id):
