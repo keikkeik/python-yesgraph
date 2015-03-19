@@ -70,7 +70,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-address-bookuser_id
         """
-        return self._request('get', '/address-book/{0}'.format(str(user_id)))
+        return self._request('GET', '/address-book/{0}'.format(str(user_id)))
 
     def post_address_book(self, user_id, entries, source_name=None,
                           source_email=None, source_type=None):
@@ -93,7 +93,7 @@ class YesGraphAPI(object):
             'source': source,
             'entries': entries,
         }
-        return self._request('post', '/address-book', payload)
+        return self._request('POST', '/address-book', payload)
 
     def post_invite_accepted(self, invitee_id, invitee_type, accepted_at=None,
                              new_user_id=None):
@@ -111,7 +111,7 @@ class YesGraphAPI(object):
         if new_user_id:
             payload['new_user_id'] = str(new_user_id)
 
-        return self._request('post', '/invite-accepted', payload)
+        return self._request('POST', '/invite-accepted', payload)
 
     def post_invite_sent(self, user_id, invitee_id, invitee_type, sent_at):
         """
@@ -127,7 +127,7 @@ class YesGraphAPI(object):
         if sent_at:
             payload['sent_at'] = sent_at
 
-        return self._request('post', '/invite-sent', payload)
+        return self._request('POST', '/invite-sent', payload)
 
     def get_users(self):
         """
@@ -135,7 +135,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-users
         """
-        return self._request('get', '/users')
+        return self._request('GET', '/users')
 
     def post_users(self, entries):
         """
@@ -143,4 +143,4 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#post-users
         """
-        return self._request('post', '/users', entries)
+        return self._request('POST', '/users', entries)
