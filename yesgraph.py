@@ -17,6 +17,7 @@ class YesGraphAPI(object):
         return '/'.join((self.base_url.rstrip('/'), endpoint.lstrip('/')))
 
     def _prepare_request(self, method, endpoint, data=None):
+        """Builds and prepares the complete request, but does not send it."""
         headers = {
             'Authorization': 'Bearer {0}'.format(self.secret_key),
             'Content-Type': 'application/json',
@@ -26,21 +27,13 @@ class YesGraphAPI(object):
         prepped_req = self.session.prepare_request(req)
         return prepped_req
 
-    def _request(self, verb, endpoint, payload=None):
+    def _request(self, method, endpoint, data=None):
         """
-        Generic request wrapper method that sends an HTTP request.
-
-        Example:
-        api = YesGraphAPI('<secret_key_here>')
-        api.request('get', '/test')
+        Builds, prepares, and sends the complete request to the YesGraph API,
+        returning the decoded response.
         """
-        is_iterable = isinstance(payload, (dict, collections.Iterable))
-        is_stringy = isinstance(payload, six.string_types)
-        if payload is not None and (not is_iterable or is_stringy):
-            raise TypeError('requests require non-string iterables')
-
-        url = self._build_url(self.base_url, endpoint)
-        resp = self.session.request(verb, url, data=json.dumps(payload))
+        prepped_req = self._prepare_request(method, endpoint, data=data)
+        resp = self.session.send(prepped_req)
         resp.raise_for_status()
         return resp.json()
 
