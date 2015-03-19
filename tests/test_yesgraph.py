@@ -52,12 +52,6 @@ def test_build_url(api):
 
 
 @pytest.mark.xfail
-def test_build_json_in_request(api):
-    with pytest.raises(TypeError):
-        api._request('accidental json')
-
-
-@pytest.mark.xfail
 def test_test_endpoint(api):
     assert api.test() == {}
 
