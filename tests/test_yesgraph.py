@@ -45,7 +45,11 @@ def test_base_url(api):
 
 def test_secret_key(api):
     api.secret_key = 'the-s3cr3t-key'
-    req = api.test()  # could be _any_ request
+
+    req = api._request('GET', '/any/url/really')
+    assert req.headers['Authorization'] == 'Bearer the-s3cr3t-key'
+
+    req = api._request('POST', '/any/url/really')
     assert req.headers['Authorization'] == 'Bearer the-s3cr3t-key'
 
 
@@ -61,7 +65,6 @@ def test_endpoint_test(api):
     req = api.test()
     assert req.method == 'GET'
     assert req.url == 'https://api.yesgraph.com/v0/test'
-    assert 'Authorization' in req.headers
     assert req.body is None
 
 
