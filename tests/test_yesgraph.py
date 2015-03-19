@@ -44,12 +44,11 @@ def test_base_url(api):
     assert req.url == 'http://www.example.org/test'
 
 
-@pytest.mark.xfail
 def test_build_url(api):
-    expected_url = 'foo/bar'
-    assert api._build_url('foo', 'bar') == expected_url
-    assert api._build_url('foo/', 'bar') == expected_url
-    assert api._build_url('foo', '/bar') == expected_url
+    assert api._build_url('foo') == 'https://api.yesgraph.com/v0/foo'
+    assert api._build_url('foo/bar') == 'https://api.yesgraph.com/v0/foo/bar'
+    assert api._build_url('/test') == 'https://api.yesgraph.com/v0/test'
+    assert api._build_url('test') == 'https://api.yesgraph.com/v0/test'
 
 
 @pytest.mark.xfail
