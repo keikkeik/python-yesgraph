@@ -106,8 +106,8 @@ class YesGraphAPI(object):
         }
         return self._request('POST', '/address-book', data)
 
-    def post_invite_accepted(self, invitee_id, invitee_type, accepted_at=None,
-                             new_user_id=None):
+    def post_invite_accepted(self, invitee_id, invitee_type='email',
+                             accepted_at=None, new_user_id=None):
         """
         Wrapped method for POST of /invite-accepted endpoint
 
