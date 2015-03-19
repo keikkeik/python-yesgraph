@@ -16,14 +16,31 @@ class SafeSession:
     def prepare_request(self, *args, **kwargs):
         return self.session.prepare_request(*args, **kwargs)
 
+    def send(self, method, *args, **kwargs):
+        raise RuntimeError('You should not be making actual requests from the test suite!')
+
     def request(self, method, *args, **kwargs):
         raise RuntimeError('You should not be making actual requests from the test suite!')
 
 
+class SafeYesGraphAPI(YesGraphAPI):
+    def __init__(self, *args, **kwargs):
+        super(SafeYesGraphAPI, self).__init__(*args, **kwargs)
+        self.session = SafeSession(self.session)
+
+    def _request(self, method, endpoint, data=None):
+        """
+        Safe version of the `_request()` call that does not actually send
+        the request, but just returns the PreparedRequest instance, for
+        inspection.
+        """
+        prepped_req = self._prepare_request(method, endpoint, data=data)
+        return prepped_req
+
+
 @pytest.fixture
 def api():
-    yg_api = YesGraphAPI(secret_key='foo')
-    yg_api.session = SafeSession(yg_api.session)
+    yg_api = SafeYesGraphAPI(secret_key='foo')
     return yg_api
 
 
@@ -42,7 +59,7 @@ def test_base_url(api):
     assert req.url == 'https://api.yesgraph.com/v0/test'
 
     # Custom base URL
-    api = YesGraphAPI(secret_key='dummy', base_url='http://www.example.org')
+    api = SafeYesGraphAPI(secret_key='dummy', base_url='http://www.example.org')
     assert api.base_url == 'http://www.example.org'
 
     # Test base URL ends up in requests
