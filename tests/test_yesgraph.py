@@ -70,6 +70,8 @@ def test_endpoint_test(api):
 
 def test_endpoint_get_client_key(api):
     req = api.get_client_key(user_id=1234)
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/client-key'
     assert req.body == '{"user_id": "1234"}'
 
 
