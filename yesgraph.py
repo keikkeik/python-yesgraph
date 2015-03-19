@@ -113,16 +113,16 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#post-invite-accepted
         """
-        payload = {
+        data = {
             'invitee_id': str(invitee_id),
             'invitee_type': invitee_type,
         }
         if accepted_at:
-            payload['accepted_at'] = accepted_at
+            data['accepted_at'] = accepted_at
         if new_user_id:
-            payload['new_user_id'] = str(new_user_id)
+            data['new_user_id'] = str(new_user_id)
 
-        return self._request('POST', '/invite-accepted', payload)
+        return self._request('POST', '/invite-accepted', data)
 
     def post_invite_sent(self, user_id, invitee_id, invitee_type, sent_at):
         """
@@ -130,15 +130,15 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#post-invite-sent
         """
-        payload = {
+        data = {
             'user_id': str(user_id),
             'invitee_id': str(invitee_id),
             'invitee_type': invitee_type,
         }
         if sent_at:
-            payload['sent_at'] = format_date(sent_at)
+            data['sent_at'] = format_date(sent_at)
 
-        return self._request('POST', '/invite-sent', payload)
+        return self._request('POST', '/invite-sent', data)
 
     def get_users(self):
         """
