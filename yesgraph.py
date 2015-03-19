@@ -48,6 +48,14 @@ class YesGraphAPI(object):
         resp.raise_for_status()
         return resp.json()
 
+    def test(self):
+        """
+        Wrapped method for GET of /test endpoint
+
+        Documentation - https://www.yesgraph.com/docs/#get-test
+        """
+        return self._request('GET', '/test')
+
     def get_client_key(self, user_id):
         """
         Wrapped method for POST of /client-key endpoint
@@ -120,14 +128,6 @@ class YesGraphAPI(object):
             payload['sent_at'] = sent_at
 
         return self._request('post', '/invite-sent', payload)
-
-    def test(self):
-        """
-        Wrapped method for GET of /test endpoint
-
-        Documentation - https://www.yesgraph.com/docs/#get-test
-        """
-        return self._request('get', '/test')
 
     def get_users(self):
         """
