@@ -124,7 +124,7 @@ class YesGraphAPI(object):
 
         return self._request('POST', '/invite-accepted', data)
 
-    def post_invite_sent(self, user_id, invitee_id, invitee_type, sent_at):
+    def post_invite_sent(self, user_id, invitee_id, invitee_type='email', sent_at=None):
         """
         Wrapped method for POST of /invite-sent endpoint
 
