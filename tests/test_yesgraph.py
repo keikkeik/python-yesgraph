@@ -45,7 +45,7 @@ def test_base_url(api):
 
 def test_secret_key(api):
     api.secret_key = 'the-s3cr3t-key'
-    req = api.test()
+    req = api.test()  # could be _any_ request
     assert req.headers['Authorization'] == 'Bearer the-s3cr3t-key'
 
 
