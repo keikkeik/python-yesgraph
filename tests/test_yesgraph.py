@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 import pytest
 from yesgraph import YesGraphAPI
@@ -121,7 +122,34 @@ def test_endpoint_post_address_book_with_source_info(api):
 
 @pytest.mark.xfail
 def test_endpoint_post_invite_sent(api):
-    assert api.post_invite_sent(42, 'john.smith@gmail.com', 'email', '2015-02-28T20:16:12+00:00') == {}
+    # Simplest invocation
+    req = api.post_invite_sent(user_id=42, invitee_id='john.smith@gmail.com')
+
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/invite-sent'
+
+    assert json.loads(req.body) == {
+        'user_id': '42',
+        'invitee_type': 'email',
+        'invitee_id': 'john.smith@gmail.com',
+    }
+
+
+def test_endpoint_post_invite_sent_advanced(api):
+    # Invocation with advanced (optional params)
+    now = datetime(2015, 3, 19, 13, 37, 00)
+    req = api.post_invite_sent(user_id=1234, invitee_id='555-123000',
+                               invitee_type='phone', sent_at=now)
+
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/invite-sent'
+
+    assert json.loads(req.body) == {
+        'sent_at': '2015-03-19T13:37:00',
+        'user_id': '1234',
+        'invitee_type': 'phone',
+        'invitee_id': '555-123000',
+    }
 
 
 @pytest.mark.xfail

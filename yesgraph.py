@@ -1,5 +1,6 @@
 import json
 from collections import Iterable
+from datetime import datetime
 
 from requests import Request, Session
 
@@ -8,6 +9,15 @@ import six
 
 def is_nonstring_iterable(obj):
     return isinstance(obj, Iterable) and not isinstance(obj, six.string_types)
+
+
+def format_date(obj):
+    if isinstance(obj, (int, six.string_types)):
+        return obj
+    elif isinstance(obj, datetime):
+        return obj.isoformat()
+    else:
+        raise TypeError('Cannot format {0} as a date.'.format(obj))
 
 
 class YesGraphAPI(object):
@@ -126,7 +136,7 @@ class YesGraphAPI(object):
             'invitee_type': invitee_type,
         }
         if sent_at:
-            payload['sent_at'] = sent_at
+            payload['sent_at'] = format_date(sent_at)
 
         return self._request('POST', '/invite-sent', payload)
 
