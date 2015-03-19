@@ -4,30 +4,7 @@ from yesgraph import YesGraphAPI
 from .data import entries, users
 
 
-class SafeSession:
-    """
-    Session wrapper that prevents from accidentally making a request to the
-    YesGraph API.  Only allows `prepare_request()` to be called on the
-    Session.
-    """
-    def __init__(self, original_session):
-        self.session = original_session
-
-    def prepare_request(self, *args, **kwargs):
-        return self.session.prepare_request(*args, **kwargs)
-
-    def send(self, method, *args, **kwargs):
-        raise RuntimeError('You should not be making actual requests from the test suite!')
-
-    def request(self, method, *args, **kwargs):
-        raise RuntimeError('You should not be making actual requests from the test suite!')
-
-
 class SafeYesGraphAPI(YesGraphAPI):
-    def __init__(self, *args, **kwargs):
-        super(SafeYesGraphAPI, self).__init__(*args, **kwargs)
-        self.session = SafeSession(self.session)
-
     def _request(self, method, endpoint, data=None):
         """
         Safe version of the `_request()` call that does not actually send
@@ -40,8 +17,7 @@ class SafeYesGraphAPI(YesGraphAPI):
 
 @pytest.fixture
 def api():
-    yg_api = SafeYesGraphAPI(secret_key='foo')
-    return yg_api
+    return SafeYesGraphAPI(secret_key='foo')
 
 
 def test_build_url(api):
