@@ -67,9 +67,18 @@ def test_base_url(api):
     assert req.url == 'http://www.example.org/test'
 
 
-@pytest.mark.xfail
+def test_secret_key(api):
+    api.secret_key = 'the-s3cr3t-key'
+    req = api.test()
+    assert req.headers['Authorization'] == 'Bearer the-s3cr3t-key'
+
+
 def test_test_endpoint(api):
-    assert api.test() == {}
+    req = api.test()
+    assert req.method == 'GET'
+    assert req.url == 'https://api.yesgraph.com/v0/test'
+    assert 'Authorization' in req.headers
+    assert req.body is None
 
 
 @pytest.mark.xfail
