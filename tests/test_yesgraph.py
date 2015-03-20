@@ -4,8 +4,6 @@ from datetime import datetime
 import pytest
 from yesgraph import YesGraphAPI
 
-from .data import users
-
 
 class SafeYesGraphAPI(YesGraphAPI):
     def _request(self, method, endpoint, data=None):
