@@ -181,9 +181,12 @@ def test_endpoint_post_invite_accepted_advanced(api):
     }
 
 
-@pytest.mark.xfail
 def test_endpoint_get_users(api):
-    assert api.get_users() == {}
+    req = api.get_users()
+
+    assert req.method == 'GET'
+    assert req.url == 'https://api.yesgraph.com/v0/users'
+    assert req.body is None
 
 
 @pytest.mark.xfail
