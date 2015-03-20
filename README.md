@@ -1,5 +1,7 @@
 # Python YesGraph
 
+[![Build Status](https://travis-ci.org/YesGraph/python-yesgraph.svg)](https://travis-ci.org/YesGraph/python-yesgraph)
+
 Python wrapper for the YesGraph API.
 
 
