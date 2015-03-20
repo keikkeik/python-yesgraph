@@ -148,10 +148,10 @@ class YesGraphAPI(object):
         """
         return self._request('GET', '/users')
 
-    def post_users(self, entries):
+    def post_users(self, users):
         """
         Wrapped method for POST of users endpoint
 
         Documentation - https://www.yesgraph.com/docs/#post-users
         """
-        return self._request('POST', '/users', entries)
+        return self._request('POST', '/users', users)
