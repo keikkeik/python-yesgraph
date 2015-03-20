@@ -57,8 +57,11 @@ class YesGraphAPI(object):
         """
         prepped_req = self._prepare_request(method, endpoint, data=data)
         resp = self.session.send(prepped_req)
-        resp.raise_for_status()
-        return resp.json()
+        return self._handle_response(resp)
+
+    def _handle_response(self, response):
+        response.raise_for_status()
+        return response.json()
 
     def test(self):
         """
