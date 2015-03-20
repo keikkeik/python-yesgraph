@@ -189,6 +189,14 @@ def test_endpoint_get_users(api):
     assert req.body is None
 
 
-@pytest.mark.xfail
 def test_endpoint_post_users(api):
-    assert api.post_users(users) == {}
+    USERS = [
+        {'id': 1, 'name': 'John Smith', 'email': 'john.smith@gmail.com'},
+        {'id': 2, 'name': 'Jane Doe', 'email': 'jane.doe@gmail.com'},
+    ]
+
+    req = api.post_users(USERS)
+
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/users'
+    assert json.loads(req.body) == USERS
