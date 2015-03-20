@@ -8,7 +8,7 @@ help:
 
 
 clean:
-	rm -rf dist/*
+	rm -rf build dist htmlcov
 
 build: clean
 	python setup.py bdist_wheel sdist
