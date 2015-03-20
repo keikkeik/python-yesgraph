@@ -1,8 +1,12 @@
 import json
 from datetime import datetime
 
+from requests import HTTPError
+
 import pytest
 from yesgraph import YesGraphAPI
+
+from .helpers import make_fake_response
 
 
 class SafeYesGraphAPI(YesGraphAPI):
@@ -198,3 +202,29 @@ def test_endpoint_post_users(api):
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/users'
     assert json.loads(req.body) == USERS
+
+
+def test_response_success(api):
+    fake_http_response = make_fake_response(200, {
+        'meta': {
+            'time': 0.123456789,
+            'app_name': 'acme',
+            'user_id': None,
+        },
+        'data': [
+            {'id': 1, 'email': 'john.smith@gmail.com'},
+            {'id': 2, 'email': 'john.smith@gmail.com'},
+        ],
+    })
+    result = api._handle_response(fake_http_response)
+    assert 'meta' in result
+    assert 'data' in result
+
+
+def test_response_with_error(api):
+    fake_http_response = make_fake_response(404, {
+        'error': 'not found',
+    })
+
+    with pytest.raises(HTTPError):
+        api._handle_response(fake_http_response)

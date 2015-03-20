@@ -60,6 +60,7 @@ class YesGraphAPI(object):
         return self._handle_response(resp)
 
     def _handle_response(self, response):
+        """Decodes the HTTP response when successful, or throws an error."""
         response.raise_for_status()
         return response.json()
 
