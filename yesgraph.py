@@ -17,7 +17,7 @@ def format_date(obj):
     elif isinstance(obj, datetime):
         return obj.isoformat()
     else:
-        raise TypeError('Cannot format {0} as a date.'.format(obj))
+        raise TypeError('Cannot format {0} as a date.'.format(obj))  # pragma: no cover
 
 
 class YesGraphAPI(object):
@@ -44,13 +44,13 @@ class YesGraphAPI(object):
             if is_nonstring_iterable(data):
                 data = json.dumps(data)
             else:
-                raise TypeError('Argument "data" must be (non-string) iterable, got: {0!r}'.format(data))
+                raise TypeError('Argument "data" must be (non-string) iterable, got: {0!r}'.format(data))  # pragma: no cover  # noqa
 
         req = Request(method, url, data=data, headers=headers)
         prepped_req = self.session.prepare_request(req)
         return prepped_req
 
-    def _request(self, method, endpoint, data=None):
+    def _request(self, method, endpoint, data=None):  # pragma: no cover
         """
         Builds, prepares, and sends the complete request to the YesGraph API,
         returning the decoded response.
