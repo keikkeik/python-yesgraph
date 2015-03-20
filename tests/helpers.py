@@ -1,7 +1,7 @@
+import io
 import json
 
 from requests import Response
-from requests.packages.urllib3.response import HTTPResponse
 from requests.structures import CaseInsensitiveDict
 
 
@@ -14,14 +14,10 @@ def make_fake_response(status, doc):
     text = json.dumps(doc)
     body = text.encode('utf-8')  # body must be bytes
 
-    # First, we need to build a urllib3 response...
-    raw_response = HTTPResponse(body)
-
-    # ...and let requests' Response wrap it
     response = Response()
     response.status_code = status
     response.headers = CaseInsensitiveDict({
         'Content-Type': 'application/json',
     })
-    response.raw = raw_response
+    response.raw = io.BytesIO(body)
     return response
