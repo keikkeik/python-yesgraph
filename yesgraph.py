@@ -33,9 +33,8 @@ class YesGraphAPI(object):
         """Builds and prepares the complete request, but does not send it."""
         headers = {
             'Authorization': 'Bearer {0}'.format(self.secret_key),
+            'Content-Type': 'application/json',
         }
-        if method != 'GET':
-            headers['Content-Type'] = 'application/json'
 
         url = self._build_url(endpoint)
 
