@@ -151,9 +151,34 @@ def test_endpoint_post_invite_sent_advanced(api):
     }
 
 
-@pytest.mark.xfail
 def test_endpoint_post_invite_accepted(api):
-    assert api.post_invite_accepted(42, 'john.smith@gmail.com', 'email', '2015-03-03T20:16:12+00:00') == {}
+    # Simplest invocation
+    req = api.post_invite_accepted('john.smith@gmail.com')
+
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/invite-accepted'
+
+    assert json.loads(req.body) == {
+        'invitee_type': 'email',
+        'invitee_id': 'john.smith@gmail.com',
+    }
+
+
+def test_endpoint_post_invite_accepted_advanced(api):
+    # Invocation with advanced (optional params)
+    now = datetime(2015, 3, 19, 13, 37, 00)
+    req = api.post_invite_accepted('555-123000', invitee_type='phone',
+                                   accepted_at=now, new_user_id=42)
+
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/invite-accepted'
+
+    assert json.loads(req.body) == {
+        'accepted_at': '2015-03-19T13:37:00',
+        'invitee_type': 'phone',
+        'invitee_id': '555-123000',
+        'new_user_id': '42',
+    }
 
 
 @pytest.mark.xfail

@@ -118,7 +118,7 @@ class YesGraphAPI(object):
             'invitee_type': invitee_type,
         }
         if accepted_at:
-            data['accepted_at'] = accepted_at
+            data['accepted_at'] = format_date(accepted_at)
         if new_user_id:
             data['new_user_id'] = str(new_user_id)
 
