@@ -1,3 +1,6 @@
+0.2.1
+- .get_client_key() now directly returns the new Client API Key string
+
 0.2.0
 - Rename YesGraphAPI() constructor argument `url` => `base_url`
 - Add a CHANGELOG :)
