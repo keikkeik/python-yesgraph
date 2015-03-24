@@ -1,4 +1,4 @@
-0.2.1
+0.3.0
 - .get_client_key() now directly returns the new Client API Key string
 
 0.2.0
