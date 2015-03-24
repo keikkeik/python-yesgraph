@@ -77,7 +77,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#obtaining-a-client-api-key
         """
-        return self._request('POST', '/client-key', {'user_id': str(user_id)})
+        return self._request('POST', '/client-key', {'user_id': str(user_id)})['client_api_key']
 
     def get_address_book(self, user_id):
         """
