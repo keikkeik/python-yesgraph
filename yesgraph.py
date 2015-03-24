@@ -80,7 +80,8 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#obtaining-a-client-api-key
         """
-        return self._get_client_key(user_id)['client_api_key']
+        result = self._get_client_key(user_id)
+        return result['client_key']
 
     def get_address_book(self, user_id):
         """
