@@ -71,13 +71,16 @@ class YesGraphAPI(object):
         """
         return self._request('GET', '/test')
 
+    def _get_client_key(self, user_id):
+        return self._request('POST', '/client-key', {'user_id': str(user_id)})
+
     def get_client_key(self, user_id):
         """
         Wrapped method for POST of /client-key endpoint
 
         Documentation - https://www.yesgraph.com/docs/#obtaining-a-client-api-key
         """
-        return self._request('POST', '/client-key', {'user_id': str(user_id)})['client_api_key']
+        return self._get_client_key(user_id)['client_api_key']
 
     def get_address_book(self, user_id):
         """
