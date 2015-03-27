@@ -2,9 +2,8 @@ import json
 from collections import Iterable
 from datetime import datetime
 
-from requests import Request, Session
-
 import six
+from requests import Request, Session
 
 
 def is_nonstring_iterable(obj):
