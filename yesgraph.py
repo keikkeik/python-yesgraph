@@ -25,11 +25,13 @@ class YesGraphAPI(object):
         self.base_url = base_url
         self.session = Session()
 
-    def _build_url(self, endpoint, limit=None):
+    def _build_url(self, endpoint, **url_args):
         url = '/'.join((self.base_url.rstrip('/'), endpoint.lstrip('/')))
 
-        if limit:
-            url = '{0}?limit={1}'.format(url, limit)
+        clean_args = dict((k, v) for k, v in url_args.items() if v)
+        if clean_args:
+            args = six.moves.urllib.parse.urlencode(clean_args)
+            url = '{0}?{1}'.format(url, args)
 
         return url
 
@@ -53,12 +55,12 @@ class YesGraphAPI(object):
         prepped_req = self.session.prepare_request(req)
         return prepped_req
 
-    def _request(self, method, endpoint, data=None, limit=None):  # pragma: no cover
+    def _request(self, method, endpoint, data=None, **url_args):  # pragma: no cover
         """
         Builds, prepares, and sends the complete request to the YesGraph API,
         returning the decoded response.
         """
-        prepped_req = self._prepare_request(method, endpoint, data=data, limit=limit)
+        prepped_req = self._prepare_request(method, endpoint, data=data, **url_args)
         resp = self.session.send(prepped_req)
         return self._handle_response(resp)
 
