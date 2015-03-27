@@ -169,7 +169,7 @@ class YesGraphAPI(object):
         """
         return self._request('POST', '/users', users)
 
-    def get_address_books(self):
+    def get_address_books(self, limit=None):
         """
         Wrapped method for GET of /address-books endpoint
 
