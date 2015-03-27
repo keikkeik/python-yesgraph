@@ -29,8 +29,6 @@ class YesGraphAPI(object):
         url = '/'.join((self.base_url.rstrip('/'), endpoint.lstrip('/')))
 
         if limit:
-            print(url)
-            print(limit)
             url = '{0}?limit={1}'.format(url, limit)
 
         return url
