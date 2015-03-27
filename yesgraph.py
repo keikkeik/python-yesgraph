@@ -173,4 +173,4 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/reference#get-address-books
         """
-        return self._request('GET', '/address-books')
+        return self._request('GET', '/address-books', limit=limit)
