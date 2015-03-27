@@ -31,7 +31,7 @@ class YesGraphAPI(object):
         if limit:
             print(url)
             print(limit)
-            url = '{}?limit={}'.format(url, limit)
+            url = '{0}?limit={1}'.format(url, limit)
 
         return url
 
