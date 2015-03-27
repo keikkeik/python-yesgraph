@@ -2,9 +2,8 @@ import json
 from collections import Iterable
 from datetime import datetime
 
-from requests import Request, Session
-
 import six
+from requests import Request, Session
 
 
 def is_nonstring_iterable(obj):
@@ -162,3 +161,11 @@ class YesGraphAPI(object):
         Documentation - https://www.yesgraph.com/docs/#post-users
         """
         return self._request('POST', '/users', users)
+
+    def get_address_books(self):
+        """
+        Wrapped method for GET of /address-books endpoint
+
+        Documentation - https://www.yesgraph.com/docs/reference#get-address-books
+        """
+        return self._request('GET', '/address-books')

@@ -1,9 +1,8 @@
 import json
 from datetime import datetime
 
-from requests import HTTPError
-
 import pytest
+from requests import HTTPError
 from yesgraph import YesGraphAPI
 
 from .helpers import make_fake_response
@@ -225,3 +224,10 @@ def test_response_with_error(api):
 
     with pytest.raises(HTTPError):
         api._handle_response(fake_http_response)
+
+
+def test_endpoint_get_address_books(api):
+    req = api.get_address_books()
+    assert req.method == 'GET'
+    assert req.url == 'https://api.yesgraph.com/v0/address-books'
+    assert req.body is None
