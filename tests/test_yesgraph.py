@@ -9,7 +9,7 @@ from .helpers import make_fake_response
 
 
 class SafeYesGraphAPI(YesGraphAPI):
-    def _request(self, method, endpoint, data=None):
+    def _request(self, method, endpoint, data=None, limit=None):
         """
         Safe version of the `_request()` call that does not actually send
         the request, but just returns the PreparedRequest instance, for
@@ -29,6 +29,8 @@ def test_build_url(api):
     assert api._build_url('foo/bar') == 'https://api.yesgraph.com/v0/foo/bar'
     assert api._build_url('/test') == 'https://api.yesgraph.com/v0/test'
     assert api._build_url('test') == 'https://api.yesgraph.com/v0/test'
+    assert api._build_url('test', limit=3) == 'https://api.yesgraph.com/v0/test?limit=3'
+    assert api._build_url('test', limit='foo') == 'https://api.yesgraph.com/v0/test?limit=foo'
 
 
 def test_base_url(api):

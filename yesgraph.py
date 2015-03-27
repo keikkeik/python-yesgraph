@@ -25,17 +25,24 @@ class YesGraphAPI(object):
         self.base_url = base_url
         self.session = Session()
 
-    def _build_url(self, endpoint):
-        return '/'.join((self.base_url.rstrip('/'), endpoint.lstrip('/')))
+    def _build_url(self, endpoint, limit=None):
+        url = '/'.join((self.base_url.rstrip('/'), endpoint.lstrip('/')))
 
-    def _prepare_request(self, method, endpoint, data=None):
+        if limit:
+            print(url)
+            print(limit)
+            url = '{}?limit={}'.format(url, limit)
+
+        return url
+
+    def _prepare_request(self, method, endpoint, data=None, limit=None):
         """Builds and prepares the complete request, but does not send it."""
         headers = {
             'Authorization': 'Bearer {0}'.format(self.secret_key),
             'Content-Type': 'application/json',
         }
 
-        url = self._build_url(endpoint)
+        url = self._build_url(endpoint, limit=limit)
 
         # Prepare the data
         if data is not None:
@@ -48,12 +55,12 @@ class YesGraphAPI(object):
         prepped_req = self.session.prepare_request(req)
         return prepped_req
 
-    def _request(self, method, endpoint, data=None):  # pragma: no cover
+    def _request(self, method, endpoint, data=None, limit=None):  # pragma: no cover
         """
         Builds, prepares, and sends the complete request to the YesGraph API,
         returning the decoded response.
         """
-        prepped_req = self._prepare_request(method, endpoint, data=data)
+        prepped_req = self._prepare_request(method, endpoint, data=data, limit=limit)
         resp = self.session.send(prepped_req)
         return self._handle_response(resp)
 
@@ -82,13 +89,13 @@ class YesGraphAPI(object):
         result = self._get_client_key(user_id)
         return result['client_key']
 
-    def get_address_book(self, user_id):
+    def get_address_book(self, user_id, limit=None):
         """
         Wrapped method for GET of /address-book endpoint
 
         Documentation - https://www.yesgraph.com/docs/#get-address-bookuser_id
         """
-        return self._request('GET', '/address-book/{0}'.format(str(user_id)))
+        return self._request('GET', '/address-book/{0}'.format(str(user_id)), limit=limit)
 
     def post_address_book(self, user_id, entries,
                           source_type, source_name=None, source_email=None):
