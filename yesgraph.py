@@ -28,7 +28,7 @@ class YesGraphAPI(object):
     def _build_url(self, endpoint, **url_args):
         url = '/'.join((self.base_url.rstrip('/'), endpoint.lstrip('/')))
 
-        clean_args = dict((k, v) for k, v in url_args.items() if v)
+        clean_args = dict((k, v) for k, v in url_args.items() if v is not None)
         if clean_args:
             args = six.moves.urllib.parse.urlencode(clean_args)
             url = '{0}?{1}'.format(url, args)
