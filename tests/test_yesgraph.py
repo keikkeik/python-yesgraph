@@ -231,3 +231,26 @@ def test_endpoint_get_address_books(api):
     assert req.method == 'GET'
     assert req.url == 'https://api.yesgraph.com/v0/address-books'
     assert req.body is None
+
+
+def test_endpoint_get_facebook(api):
+    req = api.get_facebook(user_id=1234)
+    assert req.method == 'GET'
+    assert req.url == 'https://api.yesgraph.com/v0/facebook/1234'
+    assert req.body is None
+
+
+def test_endpoint_post_facebook(api):
+    # Simplest invocation (without user_id info)
+    FRIENDS = [
+        {"id": "10000012345", "name": "John Doe"},
+        {"id": "10000012389", "name": "Jane Borger"},
+    ]
+    req = api.post_facebook(friends=FRIENDS, source_id=1234)
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/facebook'
+
+    assert json.loads(req.body) == {
+        'self': {'self_id': '1234'},
+        'friends': FRIENDS,
+    }
