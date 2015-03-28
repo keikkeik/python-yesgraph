@@ -170,7 +170,8 @@ class YesGraphAPI(object):
         """
         return self._request('GET', '/address-books')
 
-    def post_facebook(self, friends, user_id=None, source_id=None, source_name=None):
+    def post_facebook(self, friends, user_id=None, source_id=None,
+                      source_name=None):
         """
         Wrapped method for POST of /facebook endpoint
 
