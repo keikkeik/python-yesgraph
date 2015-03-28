@@ -87,6 +87,10 @@ def test_endpoint_get_address_book(api):
     assert req.url == 'https://api.yesgraph.com/v0/address-book/1234'
     assert req.body is None
 
+    # Test URL unsafe arguments to methods
+    req = api.get_address_book(user_id='user/with?unsafe&chars=inthem')
+    assert req.url == 'https://api.yesgraph.com/v0/address-book/user%2Fwith%3Funsafe%26chars%3Dinthem'
+
 
 def test_endpoint_post_address_book(api):
     # Simplest invocation (without source info)
@@ -233,3 +237,44 @@ def test_endpoint_get_address_books(api):
     assert req.method == 'GET'
     assert req.url == 'https://api.yesgraph.com/v0/address-books'
     assert req.body is None
+
+
+def test_endpoint_get_facebook(api):
+    req = api.get_facebook(user_id=1234)
+    assert req.method == 'GET'
+    assert req.url == 'https://api.yesgraph.com/v0/facebook/1234'
+    assert req.body is None
+
+    # Test URL unsafe arguments to methods
+    req = api.get_facebook(user_id='user/with?unsafe&chars=inthem')
+    assert req.url == 'https://api.yesgraph.com/v0/facebook/user%2Fwith%3Funsafe%26chars%3Dinthem'
+
+
+def test_endpoint_post_facebook(api):
+    # Simplest invocation (without user_id info)
+    FRIENDS = [
+        {"id": "10000012345", "name": "John Doe"},
+        {"id": "10000012389", "name": "Jane Borger"},
+    ]
+    req = api.post_facebook(friends=FRIENDS, source_id=1234)
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/facebook'
+
+    assert json.loads(req.body) == {
+        'self': {'id': 1234},
+        'friends': FRIENDS,
+    }
+
+
+def test_endpoint_post_google(api):
+    sentinel = {'dummy': 'payload'}
+
+    req = api.post_google(user_id=1234, payload=sentinel, source_type='gmail')
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/google'
+
+    assert json.loads(req.body) == {
+        'user_id': '1234',
+        'source': {'type': 'gmail'},
+        'payload': sentinel,
+    }
