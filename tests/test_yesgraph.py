@@ -251,6 +251,6 @@ def test_endpoint_post_facebook(api):
     assert req.url == 'https://api.yesgraph.com/v0/facebook'
 
     assert json.loads(req.body) == {
-        'self': {'self_id': '1234'},
+        'self': {'id': 1234},
         'friends': FRIENDS,
     }
