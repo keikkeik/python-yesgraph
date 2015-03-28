@@ -2,8 +2,10 @@ import json
 from collections import Iterable
 from datetime import datetime
 
-import six
 from requests import Request, Session
+
+import six
+from six.moves.urllib.parse import quote_plus
 
 
 def is_nonstring_iterable(obj):
@@ -88,7 +90,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/#get-address-bookuser_id
         """
-        return self._request('GET', '/address-book/{0}'.format(str(user_id)))
+        return self._request('GET', '/address-book/{0}'.format(quote_plus(str(user_id))))
 
     def post_address_book(self, user_id, entries,
                           source_type, source_name=None, source_email=None):
@@ -199,7 +201,7 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/reference#get-facebookuser_id
         """
-        return self._request('GET', '/facebook/{0}'.format(str(user_id)))
+        return self._request('GET', '/facebook/{0}'.format(quote_plus(str(user_id))))
 
     def post_google(self, user_id, payload, source_type, source_name=None,
                     source_email=None):
