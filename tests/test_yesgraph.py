@@ -5,6 +5,7 @@ import pytest
 from requests import HTTPError
 from yesgraph import YesGraphAPI
 
+from .data import george_payload
 from .helpers import make_fake_response
 
 
@@ -253,4 +254,19 @@ def test_endpoint_post_facebook(api):
     assert json.loads(req.body) == {
         'self': {'id': 1234},
         'friends': FRIENDS,
+    }
+
+
+def test_endpoint_post_google(api):
+    # Simplest invocation (without source info)
+    PAYLOAD = george_payload
+
+    req = api.post_google(user_id=1234, payload=PAYLOAD, source_type='gmail')
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/google'
+
+    assert json.loads(req.body) == {
+        'user_id': '1234',
+        'source': {'type': 'gmail'},
+        'payload': PAYLOAD,
     }
