@@ -187,3 +187,11 @@ class YesGraphAPI(object):
             'friends': friends,
         }
         return self._request('POST', '/facebook', data)
+
+    def get_facebook(self, user_id):
+        """
+        Wrapped method for GET of /facebook endpoint
+
+        Documentation - https://www.yesgraph.com/docs/reference#get-facebookuser_id
+        """
+        return self._request('GET', '/facebook/{0}'.format(str(user_id)))
