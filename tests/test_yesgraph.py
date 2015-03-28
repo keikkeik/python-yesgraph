@@ -9,13 +9,13 @@ from .helpers import make_fake_response
 
 
 class SafeYesGraphAPI(YesGraphAPI):
-    def _request(self, method, endpoint, data=None, limit=None):
+    def _request(self, method, endpoint, data=None, **url_args):
         """
         Safe version of the `_request()` call that does not actually send
         the request, but just returns the PreparedRequest instance, for
         inspection.
         """
-        prepped_req = self._prepare_request(method, endpoint, data=data)
+        prepped_req = self._prepare_request(method, endpoint, data=data, **url_args)
         return prepped_req
 
 
