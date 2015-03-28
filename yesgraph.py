@@ -200,3 +200,25 @@ class YesGraphAPI(object):
         Documentation - https://www.yesgraph.com/docs/reference#get-facebookuser_id
         """
         return self._request('GET', '/facebook/{0}'.format(str(user_id)))
+
+    def post_google(self, user_id, payload, source_type, source_name=None,
+                    source_email=None):
+        """
+        Wrapped method for POST of /google endpoint
+
+        Documentation - https://www.yesgraph.com/docs/reference#post-google
+        """
+        source = {
+            'type': source_type,
+        }
+        if source_name:
+            source['name'] = source_name
+        if source_email:
+            source['email'] = source_email
+
+        data = {
+            'user_id': str(user_id),
+            'source': source,
+            'payload': payload,
+        }
+        return self._request('POST', '/google', data)
