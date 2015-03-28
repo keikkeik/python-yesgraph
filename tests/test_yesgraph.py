@@ -89,6 +89,7 @@ def test_endpoint_get_address_book(api):
     req = api.get_address_book(user_id='user/with?unsafe&chars=inthem')
     assert req.url == 'https://api.yesgraph.com/v0/address-book/user%2Fwith%3Funsafe%26chars%3Dinthem'
 
+
 def test_endpoint_post_address_book(api):
     # Simplest invocation (without source info)
     ENTRIES = [
