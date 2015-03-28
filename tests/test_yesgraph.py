@@ -85,6 +85,9 @@ def test_endpoint_get_address_book(api):
     assert req.url == 'https://api.yesgraph.com/v0/address-book/1234'
     assert req.body is None
 
+    # Test URL unsafe arguments to methods
+    req = api.get_address_book(user_id='user/with?unsafe&chars=inthem')
+    assert req.url == 'https://api.yesgraph.com/v0/address-book/user%2Fwith%3Funsafe%26chars%3Dinthem'
 
 def test_endpoint_post_address_book(api):
     # Simplest invocation (without source info)
@@ -238,6 +241,10 @@ def test_endpoint_get_facebook(api):
     assert req.method == 'GET'
     assert req.url == 'https://api.yesgraph.com/v0/facebook/1234'
     assert req.body is None
+
+    # Test URL unsafe arguments to methods
+    req = api.get_facebook(user_id='user/with?unsafe&chars=inthem')
+    assert req.url == 'https://api.yesgraph.com/v0/facebook/user%2Fwith%3Funsafe%26chars%3Dinthem'
 
 
 def test_endpoint_post_facebook(api):
