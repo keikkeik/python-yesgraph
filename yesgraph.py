@@ -169,3 +169,21 @@ class YesGraphAPI(object):
         Documentation - https://www.yesgraph.com/docs/reference#get-address-books
         """
         return self._request('GET', '/address-books')
+
+    def post_facebook(self, user_id, source_id, source_name, friends):
+        """
+        Wrapped method for POST of /facebook endpoint
+
+        Documentation - https://www.yesgraph.com/docs/reference#post-facebook
+        """
+        source = {
+            'source_id': source_id,
+            'source_name': source_name,
+        }
+
+        data = {
+            'user_id': str(user_id),
+            'self': source,
+            'friends': friends,
+        }
+        return self._request('POST', '/facebook', data)
