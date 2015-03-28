@@ -66,7 +66,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for GET of /test endpoint
 
-        Documentation - https://www.yesgraph.com/docs/#get-test
+        Documentation - https://www.yesgraph.com/docs/reference#get-test
         """
         return self._request('GET', '/test')
 
@@ -77,7 +77,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /client-key endpoint
 
-        Documentation - https://www.yesgraph.com/docs/#obtaining-a-client-api-key
+        Documentation - https://www.yesgraph.com/docs/reference#obtaining-a-client-api-key
         """
         result = self._get_client_key(user_id)
         return result['client_key']
@@ -86,7 +86,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for GET of /address-book endpoint
 
-        Documentation - https://www.yesgraph.com/docs/#get-address-bookuser_id
+        Documentation - https://www.yesgraph.com/docs/reference#get-address-bookuser_id
         """
         return self._request('GET', '/address-book/{0}'.format(str(user_id)))
 
@@ -95,7 +95,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /address-book endpoint
 
-        Documentation - https://www.yesgraph.com/docs/#post-address-book
+        Documentation - https://www.yesgraph.com/docs/reference#post-address-book
         """
         source = {
             'type': source_type,
@@ -117,7 +117,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invite-accepted endpoint
 
-        Documentation - https://www.yesgraph.com/docs/#post-invite-accepted
+        Documentation - https://www.yesgraph.com/docs/reference#post-invite-accepted
         """
         data = {
             'invitee_id': str(invitee_id),
@@ -134,7 +134,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invite-sent endpoint
 
-        Documentation - https://www.yesgraph.com/docs/#post-invite-sent
+        Documentation - https://www.yesgraph.com/docs/reference#post-invite-sent
         """
         data = {
             'user_id': str(user_id),
@@ -150,7 +150,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for GET of /users endpoint
 
-        Documentation - https://www.yesgraph.com/docs/#get-users
+        Documentation - https://www.yesgraph.com/docs/reference#get-users
         """
         return self._request('GET', '/users')
 
@@ -158,7 +158,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of users endpoint
 
-        Documentation - https://www.yesgraph.com/docs/#post-users
+        Documentation - https://www.yesgraph.com/docs/reference#post-users
         """
         return self._request('POST', '/users', users)
 
