@@ -1,3 +1,7 @@
+0.4.0
+- Add Facebook endpoints
+- Add support for URL arguments
+
 0.3.1
 - Fix bug in .get_client_key()
 
