@@ -2,9 +2,8 @@ import json
 from collections import Iterable
 from datetime import datetime
 
-from requests import Request, Session
-
 import six
+from requests import Request, Session
 from six.moves.urllib.parse import quote_plus
 
 
@@ -210,27 +209,3 @@ class YesGraphAPI(object):
         Documentation - https://www.yesgraph.com/docs/reference#get-facebookuser_id
         """
         return self._request('GET', '/facebook/{0}'.format(quote_plus(str(user_id))))
-
-    def post_google(self, user_id, payload, source_name=None, source_email=None):
-        """
-        Wrapped method for POST of /google endpoint
-
-        Documentation - https://www.yesgraph.com/docs/reference#post-address-bookgoogle
-        """
-        data = {
-            'user_id': str(user_id),
-            'payload': payload,
-        }
-
-        if any([source_name, source_email]):
-            source = {}
-
-            if source_name:
-                source['name'] = source_name
-            if source_email:
-                source['email'] = source_email
-                source['type'] = 'gmail:{0}'.format(source_email)
-
-            data['source'] = source
-
-        return self._request('POST', '/google', data)

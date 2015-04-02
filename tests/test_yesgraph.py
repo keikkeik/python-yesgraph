@@ -264,36 +264,3 @@ def test_endpoint_post_facebook(api):
         'self': {'id': 1234},
         'friends': FRIENDS,
     }
-
-
-def test_endpoint_post_google(api):
-    sentinel = {'dummy': 'payload'}
-
-    req = api.post_google(user_id=1234, payload=sentinel)
-    assert req.method == 'POST'
-    assert req.url == 'https://api.yesgraph.com/v0/google'
-
-    assert json.loads(req.body) == {
-        'user_id': '1234',
-        'payload': sentinel,
-    }
-
-    req = api.post_google(user_id=1234, payload=sentinel, source_name='Jon Snow')
-    assert req.method == 'POST'
-    assert req.url == 'https://api.yesgraph.com/v0/google'
-
-    assert json.loads(req.body) == {
-        'user_id': '1234',
-        'source': {'name': 'Jon Snow'},
-        'payload': sentinel,
-    }
-
-    req = api.post_google(user_id=1234, payload=sentinel, source_email='jon@stark.net')
-    assert req.method == 'POST'
-    assert req.url == 'https://api.yesgraph.com/v0/google'
-
-    assert json.loads(req.body) == {
-        'user_id': '1234',
-        'source': {'email': 'jon@stark.net', 'type': 'gmail:jon@stark.net'},
-        'payload': sentinel,
-    }
