@@ -222,7 +222,7 @@ class YesGraphAPI(object):
             'payload': payload,
         }
 
-        if any(source_name, source_email):
+        if any([source_name, source_email]):
             source = {}
 
             if source_name:
