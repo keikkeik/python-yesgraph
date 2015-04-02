@@ -215,7 +215,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /google endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-google
+        Documentation - https://www.yesgraph.com/docs/reference#post-address-bookgoogle
         """
         data = {
             'user_id': str(user_id),
