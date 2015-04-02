@@ -3,12 +3,11 @@ Python wrapper for the YesGraph API.
 """
 from setuptools import setup
 
-
 dependencies = ['requests', 'six']
 
 setup(
     name='yesgraph',
-    version='0.4.0',
+    version='0.4.1',
     url='https://github.com/yesgraph/python-yesgraph',
     author='YesGraph',
     author_email='team@yesgraph.com',
