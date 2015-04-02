@@ -217,14 +217,20 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/reference#post-google
         """
-        if source_name:
-            source['name'] = source_name
-        if source_email:
-            source['email'] = source_email
-
         data = {
             'user_id': str(user_id),
-            'source': source,
             'payload': payload,
         }
+
+        if any(source_name, source_email):
+            source = {}
+
+            if source_name:
+                source['name'] = source_name
+            if source_email:
+                source['email'] = source_email
+                source['type'] = 'gmail:{}'.format(source_email)
+
+            data['source'] = source
+
         return self._request('POST', '/google', data)
