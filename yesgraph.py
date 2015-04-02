@@ -229,7 +229,7 @@ class YesGraphAPI(object):
                 source['name'] = source_name
             if source_email:
                 source['email'] = source_email
-                source['type'] = 'gmail:{}'.format(source_email)
+                source['type'] = 'gmail:{0}'.format(source_email)
 
             data['source'] = source
 
