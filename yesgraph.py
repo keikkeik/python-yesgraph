@@ -1,4 +1,3 @@
-import json
 from collections import Iterable
 from datetime import datetime
 
@@ -47,12 +46,11 @@ class YesGraphAPI(object):
 
         # Prepare the data
         if data is not None:
-            if is_nonstring_iterable(data):
-                data = json.dumps(data)
-            else:
-                raise TypeError('Argument "data" must be (non-string) iterable, got: {0!r}'.format(data))  # pragma: no cover  # noqa
+            if not is_nonstring_iterable(data):
+                msg = 'Argument "data" must be (non-string) iterable, got: {0!r}'
+                raise TypeError(msg.format(data))  # pragma: no cover  # noqa
 
-        req = Request(method, url, data=data, headers=headers)
+        req = Request(method, url, json=data, headers=headers)
         prepped_req = self.session.prepare_request(req)
         return prepped_req
 
