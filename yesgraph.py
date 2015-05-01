@@ -31,7 +31,7 @@ class YesGraphAPI(object):
 
     @property
     def user_agent(self):
-        client_info = '/'.join(('python-yesgraph', '0.4.1'))
+        client_info = '/'.join(('python-yesgraph', __version__))
         language_info = '/'.join((platform.python_implementation(), platform.python_version()))
         platform_info = '/'.join((platform.system(), platform.release()))
         return ' '.join([client_info, language_info, platform_info])
