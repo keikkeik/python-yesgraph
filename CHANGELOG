@@ -1,3 +1,8 @@
+0.5
+- Deprecate the `invitee_id` and `invitee_type` fields in the Invites API
+  endpoints
+- Require keyword arguments for the Invites API endpoints
+
 0.4.2
 - Set User-Agent header
 
