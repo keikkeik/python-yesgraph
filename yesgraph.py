@@ -1,4 +1,5 @@
 import platform
+import warnings
 from collections import Iterable
 from datetime import datetime
 
@@ -8,6 +9,10 @@ from requests import Request, Session
 from six.moves.urllib.parse import quote_plus
 
 __version__ = '0.4.2'
+
+
+def deprecation(message):
+    warnings.warn(message, DeprecationWarning, stacklevel=2)
 
 
 def is_nonstring_iterable(obj):
@@ -131,17 +136,38 @@ class YesGraphAPI(object):
         }
         return self._request('POST', '/address-book', data)
 
-    def post_invite_accepted(self, invitee_id, invitee_type='email',
-                             accepted_at=None, new_user_id=None):
+    def post_invite_accepted(self, **kwargs):
         """
         Wrapped method for POST of /invite-accepted endpoint
 
         Documentation - https://www.yesgraph.com/docs/reference#post-invite-accepted
         """
-        data = {
-            'invitee_id': str(invitee_id),
-            'invitee_type': invitee_type,
-        }
+        email = kwargs.get('email')
+        phone = kwargs.get('phone')
+        accepted_at = kwargs.get('accepted_at')
+        new_user_id = kwargs.get('new_user_id')
+
+        if 'invitee_id' in kwargs or 'invitee_type' in kwargs:
+            deprecation('invitee_id and invitee_type fields have been deprecated. '
+                        'Please use the `email` or `phone` fields instead.')
+
+            invitee_id = kwargs['invitee_id']
+            invitee_type = kwargs.get('invitee_type', 'email')
+            if invitee_type == 'email' and not email:
+                email = str(invitee_id)
+            elif invitee_type in {'sms', 'phone'} and not phone:
+                phone = str(invitee_id)
+            else:
+                raise ValueError('Unknown invitee_type: {}'.format(invitee_type))
+
+        if not (email or phone):
+            raise ValueError('An `email` or `phone` key is required')
+
+        data = {}
+        if email:
+            data['email'] = email
+        if phone:
+            data['phone'] = phone
         if accepted_at:
             data['accepted_at'] = format_date(accepted_at)
         if new_user_id:
@@ -149,17 +175,40 @@ class YesGraphAPI(object):
 
         return self._request('POST', '/invite-accepted', data)
 
-    def post_invite_sent(self, user_id, invitee_id, invitee_type='email', sent_at=None):
+    def post_invite_sent(self, user_id, **kwargs):
         """
         Wrapped method for POST of /invite-sent endpoint
 
         Documentation - https://www.yesgraph.com/docs/reference#post-invite-sent
         """
+        email = kwargs.get('email')
+        phone = kwargs.get('phone')
+        sent_at = kwargs.get('sent_at')
+
+        if 'invitee_id' in kwargs or 'invitee_type' in kwargs:
+            deprecation('invitee_id and invitee_type fields have been deprecated. '
+                        'Please use the `email` or `phone` fields instead.')
+
+            invitee_id = kwargs['invitee_id']
+            invitee_type = kwargs.get('invitee_type', 'email')
+            if invitee_type == 'email' and not email:
+                email = str(invitee_id)
+            elif invitee_type in {'sms', 'phone'} and not phone:
+                phone = str(invitee_id)
+            else:
+                raise ValueError('Unknown invitee_type: {}'.format(invitee_type))
+
+        if not (email or phone):
+            raise ValueError('An `email` or `phone` key is required')
+
         data = {
             'user_id': str(user_id),
-            'invitee_id': str(invitee_id),
-            'invitee_type': invitee_type,
         }
+
+        if email:
+            data['email'] = email
+        if phone:
+            data['phone'] = phone
         if sent_at:
             data['sent_at'] = format_date(sent_at)
 
