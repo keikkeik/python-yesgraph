@@ -7,6 +7,8 @@ from requests import Request, Session
 
 from six.moves.urllib.parse import quote_plus
 
+__version__ = '0.4.1'
+
 
 def is_nonstring_iterable(obj):
     return isinstance(obj, Iterable) and not isinstance(obj, six.string_types)
