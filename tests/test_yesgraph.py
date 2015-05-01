@@ -1,8 +1,9 @@
 import json
 from datetime import datetime
 
-import pytest
 from requests import HTTPError
+
+import pytest
 from yesgraph import YesGraphAPI
 
 from .helpers import make_fake_response
@@ -65,6 +66,22 @@ def test_content_type(api):
 
     req = api._request('POST', '/foo')  # any POST request
     assert req.headers['Content-Type'] == 'application/json'
+
+
+def test_user_agent(api):
+    req = api._request('GET', '/foo')  # any GET request
+    user_agent = req.headers['User-Agent']
+
+    # Test User Agent consists of 3 parts (client, language, platform)
+    client_info, lang_info, platform_info = user_agent.split(' ')
+
+    client, _ = client_info.split('/')
+    assert client == 'python-yesgraph'
+
+    # We don't want to be testing too much here, since the tests can be run
+    # from anywhere
+    _, _ = lang_info.split('/')
+    _, _ = platform_info.split('/')
 
 
 def test_endpoint_test(api):

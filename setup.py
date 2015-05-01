@@ -1,13 +1,20 @@
 """
 Python wrapper for the YesGraph API.
 """
+import re
+
 from setuptools import setup
 
 dependencies = ['requests', 'six']
 
+version = ''
+with open('yesgraph.py', 'r') as f:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
+                        f.read(), re.MULTILINE).group(1)
+
 setup(
     name='yesgraph',
-    version='0.4.1',
+    version=version,
     url='https://github.com/yesgraph/python-yesgraph',
     author='YesGraph',
     author_email='team@yesgraph.com',
