@@ -1,3 +1,9 @@
+0.4.2
+- Set User-Agent header
+
+0.4.1
+- Remove method for non-existant endpoint (POST /google)
+
 0.4.0
 - Add Facebook endpoints
 - Add support for URL arguments

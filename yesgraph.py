@@ -7,7 +7,7 @@ from requests import Request, Session
 
 from six.moves.urllib.parse import quote_plus
 
-__version__ = '0.4.1'
+__version__ = '0.4.2'
 
 
 def is_nonstring_iterable(obj):
