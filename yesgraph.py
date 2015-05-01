@@ -1,8 +1,10 @@
+import platform
 from collections import Iterable
 from datetime import datetime
 
 import six
 from requests import Request, Session
+
 from six.moves.urllib.parse import quote_plus
 
 
@@ -25,6 +27,13 @@ class YesGraphAPI(object):
         self.base_url = base_url
         self.session = Session()
 
+    @property
+    def user_agent(self):
+        client_info = '/'.join(('python-yesgraph', '0.4.1'))
+        language_info = '/'.join((platform.python_implementation(), platform.python_version()))
+        platform_info = '/'.join((platform.system(), platform.release()))
+        return ' '.join([client_info, language_info, platform_info])
+
     def _build_url(self, endpoint, **url_args):
         url = '/'.join((self.base_url.rstrip('/'), endpoint.lstrip('/')))
 
@@ -40,6 +49,7 @@ class YesGraphAPI(object):
         headers = {
             'Authorization': 'Bearer {0}'.format(self.secret_key),
             'Content-Type': 'application/json',
+            'User-Agent': self.user_agent,
         }
 
         url = self._build_url(endpoint, limit=limit)
