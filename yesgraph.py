@@ -155,7 +155,7 @@ class YesGraphAPI(object):
             invitee_type = kwargs.get('invitee_type', 'email')
             if invitee_type == 'email' and not email:
                 email = str(invitee_id)
-            elif invitee_type in {'sms', 'phone'} and not phone:
+            elif invitee_type in ('sms', 'phone') and not phone:
                 phone = str(invitee_id)
             else:
                 raise ValueError('Unknown invitee_type: {}'.format(invitee_type))
@@ -193,7 +193,7 @@ class YesGraphAPI(object):
             invitee_type = kwargs.get('invitee_type', 'email')
             if invitee_type == 'email' and not email:
                 email = str(invitee_id)
-            elif invitee_type in {'sms', 'phone'} and not phone:
+            elif invitee_type in ('sms', 'phone') and not phone:
                 phone = str(invitee_id)
             else:
                 raise ValueError('Unknown invitee_type: {}'.format(invitee_type))
