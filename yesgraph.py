@@ -175,6 +175,22 @@ class YesGraphAPI(object):
 
         return self._request('POST', '/invite-accepted', data)
 
+    def post_invites_accepted(self, **kwargs):
+        """
+        Wrapped method for POST of /invites-accepted endpoint
+
+        Documentation - https://www.yesgraph.com/docs/reference#post-invites-accepted
+        """
+
+        entries = kwargs.get('entries', None)
+
+        if entries:
+            data = {'entries': entries}
+        else:
+            raise ValueError('An entry list is required')
+
+        return self._request('POST', '/invites-accepted', data)
+
     def post_invite_sent(self, user_id, **kwargs):
         """
         Wrapped method for POST of /invite-sent endpoint
@@ -213,6 +229,38 @@ class YesGraphAPI(object):
             data['sent_at'] = format_date(sent_at)
 
         return self._request('POST', '/invite-sent', data)
+
+    def post_invites_sent(self, **kwargs):
+        """
+        Wrapped method for POST of /invites-sent endpoint
+
+        Documentation - https://www.yesgraph.com/docs/reference#post-invites-sent
+        """
+
+        entries = kwargs.get('entries', None)
+
+        if entries:
+            data = {'entries': entries}
+        else:
+            raise ValueError('An entry list is required')
+
+        return self._request('POST', '/invites-sent', data)
+
+    def post_suggested_seen(self, **kwargs):
+        """
+        Wrapped method for POST of /invites-accepted endpoint
+
+        Documentation - https://www.yesgraph.com/docs/reference#post-invites-accepted
+        """
+
+        entries = kwargs.get('entries', None)
+
+        if entries:
+            data = {'entries': entries}
+        else:
+            raise ValueError('An entry list is required')
+
+        return self._request('POST', '/suggested-seen', data)
 
     def get_users(self):
         """
