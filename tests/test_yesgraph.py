@@ -145,17 +145,65 @@ def test_endpoint_post_address_book_with_source_info(api):
     }
 
 
-def test_endpoint_post_invite_sent(api):
-    # Simplest invocation
-    req = api.post_invite_sent(user_id=42, email='john.smith@gmail.com')
+def test_endpoint_post_suggested_seen(api):
+    entries = [
+        {'user_id': '1229',
+         'name': 'John Doe',
+         'phones': ['+1 4442223333', '+1 555-222-1234'],
+         'seen_at': '2015-03-28T20:16:12+00:00'
+         },
+        {'user_id': '1234',
+         'name': 'Jean Doe',
+         'emails': ['abigail.kirigin@gmail.com'],
+         'seen_at': '2015-03-28T20:16:12+00:00'
+         },
+        {'user_id': '5678',
+         'name': 'Jane Doe',
+         'phones': ['+1 555 222 3333', '+1 555 222 3331'],
+         'seen_at':'2015-02-28T20:16:12+00:00'
+         },
+        {'user_id': '5678',
+         'phones': ['+1 555-999-1234'],
+         'seen_at': '2015-01-28T20:16:12+00:00'
+         }
+    ]
+
+    req = api.post_suggested_seen(entries=entries)
 
     assert req.method == 'POST'
-    assert req.url == 'https://api.yesgraph.com/v0/invite-sent'
+    assert req.url == 'https://api.yesgraph.com/v0/suggested-seen'
+    assert json.loads(req.body) == {'entries': entries}
 
-    assert json.loads(req.body) == {
-        'user_id': '42',
-        'email': 'john.smith@gmail.com',
-    }
+
+def test_endpoint_post_invites_sent(api):
+    entries = [
+        {'user_id': '1229',
+         'invitee_name': 'John Doe',
+         'phone': '+1 555 222 3333',
+         'sent_at': '2015-03-28T20:16:12+00:00'
+         },
+        {'user_id': '1234',
+         'invitee_name': 'Jane Doe',
+         'email': 'jane@yesgraph.com',
+         'phone': '+1 555 222 2222',
+         'sent_at': '2015-03-28T20:16:12+00:00'
+         },
+        {'user_id': '5678',
+         'invitee_name': 'Jean Doe',
+         'phone': '+1 555 222 1111',
+         'sent_at': '2015-02-28T20:16:12+00:00'
+         },
+        {'user_id': '5678',
+         'phone': '+1 555 222 5555',
+         'sent_at': '2015-01-28T20:16:12+00:00'
+         }
+    ]
+
+    req = api.post_invites_sent(entries=entries)
+
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/invites-sent'
+    assert json.loads(req.body) == {'entries': entries}
 
     # Deprecated API call (remove this test when we drop support for this)
     req = api.post_invite_sent(user_id=42, invitee_id='john.smith@gmail.com')
@@ -191,15 +239,35 @@ def test_endpoint_post_invite_sent_advanced(api):
 
 
 def test_endpoint_post_invite_accepted(api):
-    # Simplest invocation
-    req = api.post_invite_accepted(email='john.smith@gmail.com')
+    entries = [
+        {'new_user_id': '1229',
+         'name': 'John Doe',
+         'phone': '+1 555 222 3333',
+         'accepted_at': '2015-03-28T20:16:12+00:00'
+         },
+        {'new_user_id': '1234',
+         'name': 'Jane Doe',
+         'email': 'jane@yesgraph.com',
+         'phone': '+1 555 222 2222',
+         'accepted_at': '2015-03-28T20:16:12+00:00'
+         },
+        {'new_user_id': '5678',
+         'name': 'Jean Doe',
+         'phone': '+1 555 222 1111',
+         'accepted_at': '2015-02-28T20:16:12+00:00'
+         },
+        {'new_user_id': '5678',
+         'phone': '+1 555 222 5555',
+         'accepted_at': '2015-01-28T20:16:12+00:00'
+         }
+    ]
+
+    req = api.post_invites_accepted(entries=entries)
 
     assert req.method == 'POST'
-    assert req.url == 'https://api.yesgraph.com/v0/invite-accepted'
+    assert req.url == 'https://api.yesgraph.com/v0/invites-accepted'
 
-    assert json.loads(req.body) == {
-        'email': 'john.smith@gmail.com',
-    }
+    assert json.loads(req.body) == {'entries': entries}
 
     # Deprecated API call (remove this test when we drop support for this)
     req = api.post_invite_accepted(invitee_id='john.smith@gmail.com')
