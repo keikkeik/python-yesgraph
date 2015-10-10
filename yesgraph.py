@@ -2,6 +2,7 @@ import platform
 import warnings
 from collections import Iterable
 from datetime import datetime
+import json
 
 import six
 from requests import Request, Session
@@ -61,14 +62,10 @@ class YesGraphAPI(object):
 
         url = self._build_url(endpoint, limit=limit)
 
-        # Prepare the data
-        if data is not None:
-            if not is_nonstring_iterable(data):
-                msg = 'Argument "data" must be (non-string) iterable, got: {0!r}'
-                raise TypeError(msg.format(data))  # pragma: no cover  # noqa
+        req = Request(method, url, data=data, headers=headers)
 
-        req = Request(method, url, json=data, headers=headers)
         prepped_req = self.session.prepare_request(req)
+
         return prepped_req
 
     def _request(self, method, endpoint, data=None, **url_args):  # pragma: no cover
@@ -76,6 +73,7 @@ class YesGraphAPI(object):
         Builds, prepares, and sends the complete request to the YesGraph API,
         returning the decoded response.
         """
+
         prepped_req = self._prepare_request(method, endpoint, data=data, **url_args)
         resp = self.session.send(prepped_req)
         return self._handle_response(resp)
@@ -134,6 +132,9 @@ class YesGraphAPI(object):
             'source': source,
             'entries': entries,
         }
+
+        data = json.dumps(data)
+
         return self._request('POST', '/address-book', data)
 
     def post_invite_accepted(self, **kwargs):
@@ -173,6 +174,8 @@ class YesGraphAPI(object):
         if new_user_id:
             data['new_user_id'] = str(new_user_id)
 
+        data = json.dumps(data)
+
         return self._request('POST', '/invite-accepted', data)
 
     def post_invites_accepted(self, **kwargs):
@@ -184,10 +187,12 @@ class YesGraphAPI(object):
 
         entries = kwargs.get('entries', None)
 
-        if entries:
+        if entries and type(entries) == list:
             data = {'entries': entries}
         else:
             raise ValueError('An entry list is required')
+
+        data = json.dumps(data)
 
         return self._request('POST', '/invites-accepted', data)
 
@@ -228,6 +233,8 @@ class YesGraphAPI(object):
         if sent_at:
             data['sent_at'] = format_date(sent_at)
 
+        data = json.dumps(data)
+
         return self._request('POST', '/invite-sent', data)
 
     def post_invites_sent(self, **kwargs):
@@ -244,7 +251,9 @@ class YesGraphAPI(object):
         else:
             raise ValueError('An entry list is required')
 
-        return self._request('POST', '/invites-sent', data)
+        data = json.dumps(data)
+
+        return self._request('POST', '/invites-sent', data=data)
 
     def post_suggested_seen(self, **kwargs):
         """
@@ -260,7 +269,9 @@ class YesGraphAPI(object):
         else:
             raise ValueError('An entry list is required')
 
-        return self._request('POST', '/suggested-seen', data)
+        data = json.dumps(data)
+
+        return self._request('POST', '/suggested-seen', data=data)
 
     def get_users(self):
         """
@@ -276,7 +287,10 @@ class YesGraphAPI(object):
 
         Documentation - https://www.yesgraph.com/docs/reference#post-users
         """
-        return self._request('POST', '/users', users)
+
+        data = json.dumps(users)
+
+        return self._request('POST', '/users', data=data)
 
     def get_address_books(self, limit=None):
         """
@@ -307,7 +321,9 @@ class YesGraphAPI(object):
         if user_id:
             data['user_id'] = user_id
 
-        return self._request('POST', '/facebook', data)
+        data = json.dumps(data)
+
+        return self._request('POST', '/facebook', data=data)
 
     def get_facebook(self, user_id):
         """

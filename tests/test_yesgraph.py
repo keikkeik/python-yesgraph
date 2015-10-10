@@ -17,6 +17,7 @@ class SafeYesGraphAPI(YesGraphAPI):
         inspection.
         """
         prepped_req = self._prepare_request(method, endpoint, data=data, **url_args)
+
         return prepped_req
 
 
@@ -95,7 +96,7 @@ def test_endpoint_get_client_key(api):
     req = api._get_client_key(user_id=1234)
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/client-key'
-    assert req.body == '{"user_id": "1234"}'
+    assert req.body == 'user_id=1234'
 
 
 def test_endpoint_get_address_book(api):
@@ -242,15 +243,16 @@ def test_endpoint_get_users(api):
 
 
 def test_endpoint_post_users(api):
-    USERS = [
+    USERS = {'entries': [
         {'id': 1, 'name': 'John Smith', 'email': 'john.smith@gmail.com'},
         {'id': 2, 'name': 'Jane Doe', 'email': 'jane.doe@gmail.com'},
-    ]
+    ]}
 
     req = api.post_users(USERS)
 
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/users'
+
     assert json.loads(req.body) == USERS
 
 
@@ -299,6 +301,19 @@ def test_endpoint_post_facebook(api):
     # Simplest invocation (without user_id info)
     FRIENDS = [
         {"id": "10000012345", "name": "John Doe"},
+        {"id": "10000012389", "name": "Jane Borger"},
+    ]
+    req = api.post_facebook(friends=FRIENDS, source_id=1234)
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/facebook'
+
+    assert json.loads(req.body) == {
+        'self': {'id': 1234},
+        'friends': FRIENDS,
+    }
+
+    # Simplest invocation (without user_id info)
+    FRIENDS = [
         {"id": "10000012389", "name": "Jane Borger"},
     ]
     req = api.post_facebook(friends=FRIENDS, source_id=1234)
