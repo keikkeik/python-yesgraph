@@ -116,7 +116,7 @@ def test_endpoint_post_address_book(api):
         {'name': 'Foo', 'email': 'foo@example.org'},
         {'name': 'Bar', 'email': 'bar@example.org'},
     ]
-    req = api.post_address_book(user_id=1234, entries=ENTRIES, source_type='gmail')
+    req = api.post_address_book(user_id=1234, entries=ENTRIES, source_type='gmail', limit=20)
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/address-book'
 
@@ -124,6 +124,7 @@ def test_endpoint_post_address_book(api):
         'user_id': '1234',
         'source': {'type': 'gmail'},
         'entries': ENTRIES,
+        'limit': 20
     }
 
 
@@ -142,6 +143,7 @@ def test_endpoint_post_address_book_with_source_info(api):
         'user_id': '1234',
         'source': {'type': 'ios', 'name': 'Mr. Test', 'email': 'test@example.org'},
         'entries': ENTRIES,
+        'limit': None
     }
 
 
