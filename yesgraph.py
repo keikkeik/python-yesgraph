@@ -113,7 +113,7 @@ class YesGraphAPI(object):
         return self._request('GET', endpoint, limit=limit)
 
     def post_address_book(self, user_id, entries,
-                          source_type, source_name=None, source_email=None):
+                          source_type, source_name=None, source_email=None, limit=None):
         """
         Wrapped method for POST of /address-book endpoint
 
@@ -127,10 +127,14 @@ class YesGraphAPI(object):
         if source_email:
             source['email'] = source_email
 
+        if limit is not None:
+            assert(type(limit) == int)
+
         data = {
             'user_id': str(user_id),
             'source': source,
             'entries': entries,
+            'limit': limit
         }
 
         data = json.dumps(data)
