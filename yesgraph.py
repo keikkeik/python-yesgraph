@@ -52,7 +52,8 @@ class YesGraphAPI(object):
 
         return url
 
-    def _prepare_request(self, method, endpoint, data=None, limit=None):
+    def _prepare_request(self, method, endpoint, data=None,
+                         filter_suggested_seen=None, limit=None):
         """Builds and prepares the complete request, but does not send it."""
         headers = {
             'Authorization': 'Bearer {0}'.format(self.secret_key),
@@ -60,7 +61,8 @@ class YesGraphAPI(object):
             'User-Agent': self.user_agent,
         }
 
-        url = self._build_url(endpoint, limit=limit)
+        url = self._build_url(endpoint, filter_suggested_seen=filter_suggested_seen,
+                              limit=limit)
 
         req = Request(method, url, data=data, headers=headers)
 
@@ -103,17 +105,21 @@ class YesGraphAPI(object):
         result = self._get_client_key(user_id)
         return result['client_key']
 
-    def get_address_book(self, user_id, limit=None):
+    def get_address_book(self, user_id, filter_suggested_seen=None, limit=None):
         """
         Wrapped method for GET of /address-book endpoint
 
         Documentation - https://www.yesgraph.com/docs/reference#get-address-bookuser_id
         """
-        endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
-        return self._request('GET', endpoint, limit=limit)
 
-    def post_address_book(self, user_id, entries,
-                          source_type, source_name=None, source_email=None, limit=None):
+        urlargs = {'filter_suggested_seen': filter_suggested_seen,
+                   'limit': limit}
+
+        endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
+        return self._request('GET', endpoint, **urlargs)
+
+    def post_address_book(self, user_id, entries, source_type, source_name=None,
+                          source_email=None, filter_suggested_seen=None, limit=None):
         """
         Wrapped method for POST of /address-book endpoint
 
@@ -132,6 +138,7 @@ class YesGraphAPI(object):
 
         data = {
             'user_id': str(user_id),
+            'filter_suggested_seen': filter_suggested_seen,
             'source': source,
             'entries': entries,
             'limit': limit
