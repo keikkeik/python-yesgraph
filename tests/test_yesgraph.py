@@ -123,6 +123,20 @@ def test_endpoint_post_address_book(api):
     assert json.loads(req.body) == {
         'user_id': '1234',
         'source': {'type': 'gmail'},
+        'filter_suggested_seen': None,
+        'entries': ENTRIES,
+        'limit': 20
+    }
+
+    req = api.post_address_book(user_id=1234, entries=ENTRIES, source_type='gmail',
+                                filter_suggested_seen=1, limit=20)
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/address-book'
+
+    assert json.loads(req.body) == {
+        'user_id': '1234',
+        'source': {'type': 'gmail'},
+        'filter_suggested_seen': 1,
         'entries': ENTRIES,
         'limit': 20
     }
@@ -142,6 +156,7 @@ def test_endpoint_post_address_book_with_source_info(api):
     assert json.loads(req.body) == {
         'user_id': '1234',
         'source': {'type': 'ios', 'name': 'Mr. Test', 'email': 'test@example.org'},
+        'filter_suggested_seen': None,
         'entries': ENTRIES,
         'limit': None
     }
