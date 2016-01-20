@@ -284,14 +284,6 @@ class YesGraphAPI(object):
 
         return self._request('POST', '/suggested-seen', data=data)
 
-    def get_users(self):
-        """
-        Wrapped method for GET of /users endpoint
-
-        Documentation - https://www.yesgraph.com/docs/reference#get-users
-        """
-        return self._request('GET', '/users')
-
     def post_users(self, users):
         """
         Wrapped method for POST of users endpoint
