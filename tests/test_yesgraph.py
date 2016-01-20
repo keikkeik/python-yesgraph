@@ -319,14 +319,6 @@ def test_endpoint_post_invite_accepted_advanced(api):
     }
 
 
-def test_endpoint_get_users(api):
-    req = api.get_users()
-
-    assert req.method == 'GET'
-    assert req.url == 'https://api.yesgraph.com/v0/users'
-    assert req.body is None
-
-
 def test_endpoint_post_users(api):
     USERS = {'entries': [
         {'id': 1, 'name': 'John Smith', 'email': 'john.smith@gmail.com'},
