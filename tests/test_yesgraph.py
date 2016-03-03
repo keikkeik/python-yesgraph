@@ -124,6 +124,9 @@ def test_endpoint_post_address_book(api):
         'user_id': '1234',
         'source': {'type': 'gmail'},
         'filter_suggested_seen': None,
+        'filter_existing_users': None,
+        'filter_invites_sent': None,
+        'promote_existing_users': None,
         'entries': ENTRIES,
         'limit': 20
     }
@@ -137,6 +140,9 @@ def test_endpoint_post_address_book(api):
         'user_id': '1234',
         'source': {'type': 'gmail'},
         'filter_suggested_seen': 1,
+        'filter_existing_users': None,
+        'filter_invites_sent': None,
+        'promote_existing_users': None,
         'entries': ENTRIES,
         'limit': 20
     }
@@ -157,6 +163,9 @@ def test_endpoint_post_address_book_with_source_info(api):
         'user_id': '1234',
         'source': {'type': 'ios', 'name': 'Mr. Test', 'email': 'test@example.org'},
         'filter_suggested_seen': None,
+        'filter_existing_users': None,
+        'filter_invites_sent': None,
+        'promote_existing_users': None,
         'entries': ENTRIES,
         'limit': None
     }
