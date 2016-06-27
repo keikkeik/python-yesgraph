@@ -231,40 +231,8 @@ def test_endpoint_post_invites_sent(api):
     assert req.url == 'https://api.yesgraph.com/v0/invites-sent'
     assert json.loads(req.body) == {'entries': entries}
 
-    # Deprecated API call (remove this test when we drop support for this)
-    req = api.post_invite_sent(user_id=42, invitee_id='john.smith@gmail.com')
-    assert json.loads(req.body) == {
-        'user_id': '42',
-        'email': 'john.smith@gmail.com',
-    }
 
-
-def test_endpoint_post_invite_sent_advanced(api):
-    # Invocation with advanced (optional params)
-    now = datetime(2015, 3, 19, 13, 37, 00)
-    req = api.post_invite_sent(user_id=1234, phone='555-123000', sent_at=now)
-
-    assert req.method == 'POST'
-    assert req.url == 'https://api.yesgraph.com/v0/invite-sent'
-
-    assert json.loads(req.body) == {
-        'sent_at': '2015-03-19T13:37:00',
-        'user_id': '1234',
-        'phone': '555-123000',
-    }
-
-    # Deprecated API call (remove this test when we drop support for this)
-    req = api.post_invite_sent(user_id=1234, invitee_id='555-123000',
-                               invitee_type='phone', sent_at=now)
-
-    assert json.loads(req.body) == {
-        'sent_at': '2015-03-19T13:37:00',
-        'user_id': '1234',
-        'phone': '555-123000',
-    }
-
-
-def test_endpoint_post_invite_accepted(api):
+def test_endpoint_post_invites_accepted(api):
     entries = [
         {'new_user_id': '1229',
          'name': 'John Doe',
@@ -295,38 +263,6 @@ def test_endpoint_post_invite_accepted(api):
 
     assert json.loads(req.body) == {'entries': entries}
 
-    # Deprecated API call (remove this test when we drop support for this)
-    req = api.post_invite_accepted(invitee_id='john.smith@gmail.com')
-    assert json.loads(req.body) == {
-        'email': 'john.smith@gmail.com',
-    }
-
-
-def test_endpoint_post_invite_accepted_advanced(api):
-    # Invocation with advanced (optional params)
-    now = datetime(2015, 3, 19, 13, 37, 00)
-    req = api.post_invite_accepted(phone='555-123000',
-                                   accepted_at=now, new_user_id=42)
-
-    assert req.method == 'POST'
-    assert req.url == 'https://api.yesgraph.com/v0/invite-accepted'
-
-    assert json.loads(req.body) == {
-        'accepted_at': '2015-03-19T13:37:00',
-        'phone': '555-123000',
-        'new_user_id': '42',
-    }
-
-    # Deprecated API call (remove this test when we drop support for this)
-    req = api.post_invite_accepted(invitee_id='555-123000', invitee_type='phone',
-                                   accepted_at=now, new_user_id=42)
-
-    assert json.loads(req.body) == {
-        'accepted_at': '2015-03-19T13:37:00',
-        'phone': '555-123000',
-        'new_user_id': '42',
-    }
-
 
 def test_endpoint_post_users(api):
     USERS = {'entries': [
@@ -340,6 +276,20 @@ def test_endpoint_post_users(api):
     assert req.url == 'https://api.yesgraph.com/v0/users'
 
     assert json.loads(req.body) == USERS
+
+
+def test_endpoint_get_followers(api):
+    user_id = "1234"
+    email = "email@email.com"
+    phone = "555-111-2222"
+
+    req = api.get_followers(type_name='user_id', identifier=user_id)
+    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}/'.format('user_id', user_id)
+    req = api.get_followers(type_name='email', identifier=email)
+    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}/'.format('email', email)
+    req = api.get_followers(type_name='phone', identifier=phone)
+    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}/'.format('phone', phone)
+    assert req.method == 'GET'
 
 
 def test_response_success(api):
@@ -363,50 +313,3 @@ def test_response_with_error(api):
 
     with pytest.raises(HTTPError):
         api._handle_response(fake_http_response)
-
-
-def test_endpoint_get_address_books(api):
-    req = api.get_address_books()
-    assert req.method == 'GET'
-    assert req.url == 'https://api.yesgraph.com/v0/address-books'
-    assert req.body is None
-
-
-def test_endpoint_get_facebook(api):
-    req = api.get_facebook(user_id=1234)
-    assert req.method == 'GET'
-    assert req.url == 'https://api.yesgraph.com/v0/facebook/1234'
-    assert req.body is None
-
-    # Test URL unsafe arguments to methods
-    req = api.get_facebook(user_id='user/with?unsafe&chars=inthem')
-    assert req.url == 'https://api.yesgraph.com/v0/facebook/user%2Fwith%3Funsafe%26chars%3Dinthem'
-
-
-def test_endpoint_post_facebook(api):
-    # Simplest invocation (without user_id info)
-    FRIENDS = [
-        {"id": "10000012345", "name": "John Doe"},
-        {"id": "10000012389", "name": "Jane Borger"},
-    ]
-    req = api.post_facebook(friends=FRIENDS, source_id=1234)
-    assert req.method == 'POST'
-    assert req.url == 'https://api.yesgraph.com/v0/facebook'
-
-    assert json.loads(req.body) == {
-        'self': {'id': 1234},
-        'friends': FRIENDS,
-    }
-
-    # Simplest invocation (without user_id info)
-    FRIENDS = [
-        {"id": "10000012389", "name": "Jane Borger"},
-    ]
-    req = api.post_facebook(friends=FRIENDS, source_id=1234)
-    assert req.method == 'POST'
-    assert req.url == 'https://api.yesgraph.com/v0/facebook'
-
-    assert json.loads(req.body) == {
-        'self': {'id': 1234},
-        'friends': FRIENDS,
-    }
