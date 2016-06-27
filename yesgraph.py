@@ -95,7 +95,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for GET of /test endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#get-test
+        Documentation - https://www.yesgraph.com/docs/test
         """
         return self._request('GET', '/test')
 
@@ -106,7 +106,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /client-key endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#obtaining-a-client-api-key
+        Documentation - https://docs.yesgraph.com/docs/create-client-keys
         """
         result = self._get_client_key(user_id)
         return result['client_key']
@@ -118,7 +118,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for GET of /address-book endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#get-address-bookuser_id
+        Documentation - https://www.yesgraph.com/docs/address-book
         """
 
         urlargs = {'filter_suggested_seen': filter_suggested_seen,
@@ -170,7 +170,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invites-accepted endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invites-accepted
+        Documentation - https://docs.yesgraph.com/docs/invites-accepted
         """
 
         entries = kwargs.get('entries', None)
@@ -188,7 +188,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invites-sent endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invites-sent
+        Documentation - https://docs.yesgraph.com/docs/invites-sent
         """
 
         entries = kwargs.get('entries', None)
@@ -206,7 +206,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invites-accepted endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invites-accepted
+        Documentation - https://docs.yesgraph.com/docs/suggested-seen
         """
 
         entries = kwargs.get('entries', None)
@@ -224,7 +224,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of users endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-users
+        Documentation - https://docs.yesgraph.com/docs/users
         """
 
         data = json.dumps(users)
@@ -234,6 +234,8 @@ class YesGraphAPI(object):
     def get_followers(self, type_name, identifier):
         """
         Wrapped method for GET of /followers/<type>/<identifier>/
+
+        Documentation - https://docs.yesgraph.com/v0/docs/followerstypeidentifier
         """
         if type_name not in ['user_id', 'email', 'phone']:
             raise ValueError("type_name must be 'user_id', 'email', or 'phone'")
