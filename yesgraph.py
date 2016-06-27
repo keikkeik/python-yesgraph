@@ -240,6 +240,6 @@ class YesGraphAPI(object):
         if not identifier:
             raise ValueError("Must have a non-null identifier")
 
-        endpoint = '/followers/{0}/{1}/'.format(type_name, identifier)
+        endpoint = '/followers/{0}/{1}'.format(type_name, identifier)
 
         return self._request('GET', endpoint)

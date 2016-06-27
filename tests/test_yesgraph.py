@@ -284,11 +284,11 @@ def test_endpoint_get_followers(api):
     phone = "555-111-2222"
 
     req = api.get_followers(type_name='user_id', identifier=user_id)
-    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}/'.format('user_id', user_id)
+    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}'.format('user_id', user_id)
     req = api.get_followers(type_name='email', identifier=email)
-    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}/'.format('email', email)
+    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}'.format('email', email)
     req = api.get_followers(type_name='phone', identifier=phone)
-    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}/'.format('phone', phone)
+    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}'.format('phone', phone)
     assert req.method == 'GET'
 
 
