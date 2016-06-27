@@ -1,6 +1,4 @@
 import json
-from datetime import datetime
-
 from requests import HTTPError
 
 import pytest
