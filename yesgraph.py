@@ -1,6 +1,4 @@
 import platform
-import warnings
-from collections import Iterable
 from datetime import datetime
 import json
 
@@ -9,15 +7,7 @@ from requests import Request, Session
 
 from six.moves.urllib.parse import quote_plus
 
-__version__ = '0.5'
-
-
-def deprecation(message):
-    warnings.warn(message, DeprecationWarning, stacklevel=2)
-
-
-def is_nonstring_iterable(obj):
-    return isinstance(obj, Iterable) and not isinstance(obj, six.string_types)
+__version__ = '0.6.0'
 
 
 def format_date(obj):
@@ -95,7 +85,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for GET of /test endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#get-test
+        Documentation - https://www.yesgraph.com/docs/test
         """
         return self._request('GET', '/test')
 
@@ -106,7 +96,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /client-key endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#obtaining-a-client-api-key
+        Documentation - https://docs.yesgraph.com/docs/create-client-keys
         """
         result = self._get_client_key(user_id)
         return result['client_key']
@@ -118,7 +108,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for GET of /address-book endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#get-address-bookuser_id
+        Documentation - https://www.yesgraph.com/docs/address-book
         """
 
         urlargs = {'filter_suggested_seen': filter_suggested_seen,
@@ -138,7 +128,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /address-book endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-address-book
+        Documentation - https://www.yesgraph.com/docs/address-book
         """
         source = {
             'type': source_type,
@@ -166,52 +156,11 @@ class YesGraphAPI(object):
 
         return self._request('POST', '/address-book', data)
 
-    def post_invite_accepted(self, **kwargs):
-        """
-        Wrapped method for POST of /invite-accepted endpoint
-
-        Documentation - https://www.yesgraph.com/docs/reference#post-invite-accepted
-        """
-        email = kwargs.get('email')
-        phone = kwargs.get('phone')
-        accepted_at = kwargs.get('accepted_at')
-        new_user_id = kwargs.get('new_user_id')
-
-        if 'invitee_id' in kwargs or 'invitee_type' in kwargs:
-            deprecation('invitee_id and invitee_type fields have been deprecated. '
-                        'Please use the `email` or `phone` fields instead.')
-
-            invitee_id = kwargs['invitee_id']
-            invitee_type = kwargs.get('invitee_type', 'email')
-            if invitee_type == 'email' and not email:
-                email = str(invitee_id)
-            elif invitee_type in ('sms', 'phone') and not phone:
-                phone = str(invitee_id)
-            else:
-                raise ValueError('Unknown invitee_type: {}'.format(invitee_type))
-
-        if not (email or phone):
-            raise ValueError('An `email` or `phone` key is required')
-
-        data = {}
-        if email:
-            data['email'] = email
-        if phone:
-            data['phone'] = phone
-        if accepted_at:
-            data['accepted_at'] = format_date(accepted_at)
-        if new_user_id:
-            data['new_user_id'] = str(new_user_id)
-
-        data = json.dumps(data)
-
-        return self._request('POST', '/invite-accepted', data)
-
     def post_invites_accepted(self, **kwargs):
         """
         Wrapped method for POST of /invites-accepted endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invites-accepted
+        Documentation - https://docs.yesgraph.com/docs/invites-accepted
         """
 
         entries = kwargs.get('entries', None)
@@ -225,52 +174,11 @@ class YesGraphAPI(object):
 
         return self._request('POST', '/invites-accepted', data)
 
-    def post_invite_sent(self, user_id, **kwargs):
-        """
-        Wrapped method for POST of /invite-sent endpoint
-
-        Documentation - https://www.yesgraph.com/docs/reference#post-invite-sent
-        """
-        email = kwargs.get('email')
-        phone = kwargs.get('phone')
-        sent_at = kwargs.get('sent_at')
-
-        if 'invitee_id' in kwargs or 'invitee_type' in kwargs:
-            deprecation('invitee_id and invitee_type fields have been deprecated. '
-                        'Please use the `email` or `phone` fields instead.')
-
-            invitee_id = kwargs['invitee_id']
-            invitee_type = kwargs.get('invitee_type', 'email')
-            if invitee_type == 'email' and not email:
-                email = str(invitee_id)
-            elif invitee_type in ('sms', 'phone') and not phone:
-                phone = str(invitee_id)
-            else:
-                raise ValueError('Unknown invitee_type: {}'.format(invitee_type))
-
-        if not (email or phone):
-            raise ValueError('An `email` or `phone` key is required')
-
-        data = {
-            'user_id': str(user_id),
-        }
-
-        if email:
-            data['email'] = email
-        if phone:
-            data['phone'] = phone
-        if sent_at:
-            data['sent_at'] = format_date(sent_at)
-
-        data = json.dumps(data)
-
-        return self._request('POST', '/invite-sent', data)
-
     def post_invites_sent(self, **kwargs):
         """
         Wrapped method for POST of /invites-sent endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invites-sent
+        Documentation - https://docs.yesgraph.com/docs/invites-sent
         """
 
         entries = kwargs.get('entries', None)
@@ -288,7 +196,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invites-accepted endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invites-accepted
+        Documentation - https://docs.yesgraph.com/docs/suggested-seen
         """
 
         entries = kwargs.get('entries', None)
@@ -306,50 +214,24 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of users endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-users
+        Documentation - https://docs.yesgraph.com/docs/users
         """
 
         data = json.dumps(users)
 
         return self._request('POST', '/users', data=data)
 
-    def get_address_books(self, limit=None):
+    def get_followers(self, type_name, identifier):
         """
-        Wrapped method for GET of /address-books endpoint
+        Wrapped method for GET of /followers/<type>/<identifier>/
 
-        Documentation - https://www.yesgraph.com/docs/reference#get-address-books
+        Documentation - https://docs.yesgraph.com/v0/docs/followerstypeidentifier
         """
-        return self._request('GET', '/address-books', limit=limit)
+        if type_name not in ['user_id', 'email', 'phone']:
+            raise ValueError("type_name must be 'user_id', 'email', or 'phone'")
+        if not identifier:
+            raise ValueError("Must have a non-null identifier")
 
-    def post_facebook(self, friends, user_id=None, source_id=None,
-                      source_name=None):
-        """
-        Wrapped method for POST of /facebook endpoint
+        endpoint = '/followers/{0}/{1}'.format(type_name, identifier)
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-facebook
-        """
-        source = {}
-        if source_id:
-            source['id'] = source_id
-        if source_name:
-            source['name'] = source_name
-
-        data = {
-            'self': source,
-            'friends': friends,
-        }
-
-        if user_id:
-            data['user_id'] = user_id
-
-        data = json.dumps(data)
-
-        return self._request('POST', '/facebook', data=data)
-
-    def get_facebook(self, user_id):
-        """
-        Wrapped method for GET of /facebook endpoint
-
-        Documentation - https://www.yesgraph.com/docs/reference#get-facebookuser_id
-        """
-        return self._request('GET', '/facebook/{0}'.format(quote_plus(str(user_id))))
+        return self._request('GET', endpoint)
