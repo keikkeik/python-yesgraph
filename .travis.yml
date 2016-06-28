@@ -2,11 +2,15 @@ language: python
 
 python: 2.7
 
+# To enable containerized (Docker) Travis builds, might be faster
+sudo: false
+
 env:
   global:
     # configure pip caches
     - PIP_WHEEL_DIR=$HOME/.cache/pip/wheels
     - PIP_FIND_LINKS=file://$HOME/.cache/pip/wheels
+    - COVERALLS_REPO_TOKEN=zGDeeP21JYP4bHrSvMJxQUJoL3TQYZ8iJ
   matrix:
     - TOXENV=py27
     - TOXENV=py33
