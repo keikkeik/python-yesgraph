@@ -1,3 +1,14 @@
+0.6.0
+- Updates POST /invite-sent (single entry) to POST /invites-sent (list)
+- Updates POST /invite-accepted (single entry) to POST /invites-accepted (list)
+- Adds GET /followers/<type>/<identifier>
+- Adds test coverage and support for Coveralls
+- Adds POST /suggested-seen
+- Adds filters to /address-book endpoint
+- Removes GET /users 
+- Removes POST /facebook
+- Removes GET /address-books
+
 0.5
 - Deprecate the `invitee_id` and `invitee_type` fields in the Invites API
   endpoints
