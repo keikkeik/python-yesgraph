@@ -198,6 +198,9 @@ def test_endpoint_post_suggested_seen(api):
     assert req.url == 'https://api.yesgraph.com/v0/suggested-seen'
     assert json.loads(req.body) == {'entries': entries}
 
+    with pytest.raises(ValueError):
+        req = api.post_suggested_seen(entries=None)
+
 
 def test_endpoint_post_invites_sent(api):
     entries = [
@@ -228,6 +231,9 @@ def test_endpoint_post_invites_sent(api):
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/invites-sent'
     assert json.loads(req.body) == {'entries': entries}
+
+    with pytest.raises(ValueError):
+        req = api.post_invites_sent(entries=None)
 
 
 def test_endpoint_post_invites_accepted(api):
@@ -261,6 +267,9 @@ def test_endpoint_post_invites_accepted(api):
 
     assert json.loads(req.body) == {'entries': entries}
 
+    with pytest.raises(ValueError):
+        req = api.post_invites_accepted(entries=None)
+
 
 def test_endpoint_post_users(api):
     USERS = {'entries': [
@@ -288,6 +297,15 @@ def test_endpoint_get_followers(api):
     req = api.get_followers(type_name='phone', identifier=phone)
     assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}'.format('phone', phone)
     assert req.method == 'GET'
+
+    with pytest.raises(ValueError):
+        req = api.get_followers(type_name='some_wrong_type', identifier=email)
+    with pytest.raises(ValueError):
+        req = api.get_followers(type_name='some_wrong_type2', identifier=email)
+    with pytest.raises(ValueError):
+        req = api.get_followers(type_name='email', identifier=None)
+    with pytest.raises(ValueError):
+        req = api.get_followers(type_name='phone', identifier=None)
 
 
 def test_response_success(api):

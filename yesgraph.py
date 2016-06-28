@@ -1,6 +1,4 @@
 import platform
-import warnings
-from collections import Iterable
 from datetime import datetime
 import json
 
@@ -9,15 +7,7 @@ from requests import Request, Session
 
 from six.moves.urllib.parse import quote_plus
 
-__version__ = '0.5'
-
-
-def deprecation(message):
-    warnings.warn(message, DeprecationWarning, stacklevel=2)
-
-
-def is_nonstring_iterable(obj):
-    return isinstance(obj, Iterable) and not isinstance(obj, six.string_types)
+__version__ = '0.6.0'
 
 
 def format_date(obj):
