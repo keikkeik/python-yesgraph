@@ -1,4 +1,6 @@
 import platform
+import warnings
+from collections import Iterable
 from datetime import datetime
 import json
 
@@ -7,7 +9,15 @@ from requests import Request, Session
 
 from six.moves.urllib.parse import quote_plus
 
-__version__ = '0.6.0'
+__version__ = '0.6.1'
+
+
+def deprecation(message):
+    warnings.warn(message, DeprecationWarning, stacklevel=2)
+
+
+def is_nonstring_iterable(obj):
+    return isinstance(obj, Iterable) and not isinstance(obj, six.string_types)
 
 
 def format_date(obj):
@@ -174,6 +184,49 @@ class YesGraphAPI(object):
 
         return self._request('POST', '/invites-accepted', data)
 
+    def post_invite_accepted(self, **kwargs):
+        """
+        Wrapped method for POST of /invite-accepted endpoint
+
+        Documentation - https://www.yesgraph.com/docs/reference#post-invite-accepted
+        """
+        email = kwargs.get('email')
+        phone = kwargs.get('phone')
+        accepted_at = kwargs.get('accepted_at')
+        new_user_id = kwargs.get('new_user_id')
+        deprecation(""" POST /invite-accepted (single) has been deprecated in
+                        favor of the batch endpoint POST /invites-accepted """)
+
+        if 'invitee_id' in kwargs or 'invitee_type' in kwargs:
+            deprecation('invitee_id and invitee_type fields have been deprecated. '
+                        'Please use the `email` or `phone` fields instead.')
+
+            invitee_id = kwargs['invitee_id']
+            invitee_type = kwargs.get('invitee_type', 'email')
+            if invitee_type == 'email' and not email:
+                email = str(invitee_id)
+            elif invitee_type in ('sms', 'phone') and not phone:
+                phone = str(invitee_id)
+            else:
+                raise ValueError('Unknown invitee_type: {}'.format(invitee_type))
+
+        if not (email or phone):
+            raise ValueError('An `email` or `phone` key is required')
+
+        data = {}
+        if email:
+            data['email'] = email
+        if phone:
+            data['phone'] = phone
+        if accepted_at:
+            data['accepted_at'] = format_date(accepted_at)
+        if new_user_id:
+            data['new_user_id'] = str(new_user_id)
+
+        entries = {'entries': [data]}
+
+        return self.post_invites_accepted(**entries)
+
     def post_invites_sent(self, **kwargs):
         """
         Wrapped method for POST of /invites-sent endpoint
@@ -191,6 +244,49 @@ class YesGraphAPI(object):
         data = json.dumps(data)
 
         return self._request('POST', '/invites-sent', data=data)
+
+    def post_invite_sent(self, user_id, **kwargs):
+        """
+        Wrapped method for POST of /invite-sent endpoint
+
+        Documentation - https://www.yesgraph.com/docs/reference#post-invite-sent
+        """
+        email = kwargs.get('email')
+        phone = kwargs.get('phone')
+        sent_at = kwargs.get('sent_at')
+        deprecation(""" POST /invite-sent (single) has been deprecated in
+                        favor of the batch endpoint POST /invites-sent """)
+
+        if 'invitee_id' in kwargs or 'invitee_type' in kwargs:
+            deprecation('invitee_id and invitee_type fields have been deprecated. '
+                        'Please use the `email` or `phone` fields instead.')
+
+            invitee_id = kwargs['invitee_id']
+            invitee_type = kwargs.get('invitee_type', 'email')
+            if invitee_type == 'email' and not email:
+                email = str(invitee_id)
+            elif invitee_type in ('sms', 'phone') and not phone:
+                phone = str(invitee_id)
+            else:
+                raise ValueError('Unknown invitee_type: {}'.format(invitee_type))
+
+        if not (email or phone):
+            raise ValueError('An `email` or `phone` key is required')
+
+        data = {
+            'user_id': str(user_id),
+        }
+
+        if email:
+            data['email'] = email
+        if phone:
+            data['phone'] = phone
+        if sent_at:
+            data['sent_at'] = format_date(sent_at)
+
+        entries = {'entries': [data]}
+
+        return self.post_invites_sent(**entries)
 
     def post_suggested_seen(self, **kwargs):
         """
