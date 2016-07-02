@@ -1,3 +1,7 @@
+0.6.1
+- Adds POST /invite-sent (single entry) and POST /invite-accepted (single entry) deprecated endpoints back in for compatibility
+- Updates tests
+
 0.6.0
 - Updates POST /invite-sent (single entry) to POST /invites-sent (list)
 - Updates POST /invite-accepted (single entry) to POST /invites-accepted (list)
