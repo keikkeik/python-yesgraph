@@ -9,7 +9,7 @@ from requests import Request, Session
 
 from six.moves.urllib.parse import quote_plus
 
-__version__ = '0.6.1'
+__version__ = '0.6.2'
 
 
 def deprecation(message):
@@ -165,6 +165,33 @@ class YesGraphAPI(object):
         data = json.dumps(data)
 
         return self._request('POST', '/address-book', data)
+
+
+    def backfill_address_book(self, user_id, entries, source_type, source_name=None,
+                          source_email=None):
+        """
+        Wrapped method for POST of /address-book endpoint
+
+        Documentation - https://www.yesgraph.com/docs/address-book
+        """
+        source = {
+            'type': source_type,
+        }
+        if source_name:
+            source['name'] = source_name
+        if source_email:
+            source['email'] = source_email
+
+        data = {
+            'user_id': str(user_id),
+            'source': source,
+            'entries': entries,
+        }
+
+        data = json.dumps(data)
+
+        return self._request('POST', '/backfill/address-book', data)
+
 
     def post_invites_accepted(self, **kwargs):
         """

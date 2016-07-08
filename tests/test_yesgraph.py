@@ -116,6 +116,34 @@ def test_endpoint_post_address_book(api):
         {'name': 'Foo', 'email': 'foo@example.org'},
         {'name': 'Bar', 'email': 'bar@example.org'},
     ]
+    req = api.backfill_address_book(user_id=1234, entries=ENTRIES, source_type='gmail', limit=20)
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/backfill/address-book'
+
+    assert json.loads(req.body) == {
+        'user_id': '1234',
+        'source': {'type': 'gmail'},
+        'entries': ENTRIES,
+    }
+
+    req = api.backfill_address_book(user_id=1234, entries=ENTRIES, source_type='gmail',
+                                filter_suggested_seen=1, limit=20)
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/backfill/address-book'
+
+    assert json.loads(req.body) == {
+        'user_id': '1234',
+        'source': {'type': 'gmail'},
+        'entries': ENTRIES,
+    }
+
+
+def test_endpoint_post_address_book(api):
+    # Simplest invocation (without source info)
+    ENTRIES = [
+        {'name': 'Foo', 'email': 'foo@example.org'},
+        {'name': 'Bar', 'email': 'bar@example.org'},
+    ]
     req = api.post_address_book(user_id=1234, entries=ENTRIES, source_type='gmail', limit=20)
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/address-book'
