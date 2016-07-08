@@ -1,3 +1,6 @@
+0.6.2
+- Adds POST /backfill/address-book endpoint for POSTing address-books without returning ranked results
+
 0.6.1
 - Adds POST /invite-sent (single entry) and POST /invite-accepted (single entry) deprecated endpoints back in for compatibility
 - Updates tests
