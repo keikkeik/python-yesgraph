@@ -96,7 +96,7 @@ def test_endpoint_get_client_key(api):
     req = api._get_client_key(user_id=1234)
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/client-key'
-    assert req.body == 'user_id=1234'
+    assert req.body == '{"user_id": "1234"}'
 
 
 def test_endpoint_get_address_book(api):
@@ -110,13 +110,13 @@ def test_endpoint_get_address_book(api):
     assert req.url == 'https://api.yesgraph.com/v0/address-book/user%2Fwith%3Funsafe%26chars%3Dinthem'
 
 
-def test_endpoint_post_address_book(api):
+def test_endpoint_backfill_address_book(api):
     # Simplest invocation (without source info)
     ENTRIES = [
         {'name': 'Foo', 'email': 'foo@example.org'},
         {'name': 'Bar', 'email': 'bar@example.org'},
     ]
-    req = api.backfill_address_book(user_id=1234, entries=ENTRIES, source_type='gmail', limit=20)
+    req = api.backfill_address_book(user_id=1234, entries=ENTRIES, source_type='gmail')
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/backfill/address-book'
 
@@ -126,8 +126,7 @@ def test_endpoint_post_address_book(api):
         'entries': ENTRIES,
     }
 
-    req = api.backfill_address_book(user_id=1234, entries=ENTRIES, source_type='gmail',
-                                filter_suggested_seen=1, limit=20)
+    req = api.backfill_address_book(user_id=1234, entries=ENTRIES, source_type='gmail')
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/backfill/address-book'
 
@@ -371,29 +370,6 @@ def test_endpoint_post_users(api):
     assert req.url == 'https://api.yesgraph.com/v0/users'
 
     assert json.loads(req.body) == USERS
-
-
-def test_endpoint_get_followers(api):
-    user_id = "1234"
-    email = "email@email.com"
-    phone = "555-111-2222"
-
-    req = api.get_followers(type_name='user_id', identifier=user_id)
-    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}'.format('user_id', user_id)
-    req = api.get_followers(type_name='email', identifier=email)
-    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}'.format('email', email)
-    req = api.get_followers(type_name='phone', identifier=phone)
-    assert req.url == 'https://api.yesgraph.com/v0/followers/{0}/{1}'.format('phone', phone)
-    assert req.method == 'GET'
-
-    with pytest.raises(ValueError):
-        req = api.get_followers(type_name='some_wrong_type', identifier=email)
-    with pytest.raises(ValueError):
-        req = api.get_followers(type_name='some_wrong_type2', identifier=email)
-    with pytest.raises(ValueError):
-        req = api.get_followers(type_name='email', identifier=None)
-    with pytest.raises(ValueError):
-        req = api.get_followers(type_name='phone', identifier=None)
 
 
 def test_response_success(api):

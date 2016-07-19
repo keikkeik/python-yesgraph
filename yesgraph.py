@@ -100,7 +100,8 @@ class YesGraphAPI(object):
         return self._request('GET', '/test')
 
     def _get_client_key(self, user_id):
-        return self._request('POST', '/client-key', {'user_id': str(user_id)})
+        data = json.dumps({'user_id': str(user_id)})
+        return self._request('POST', '/client-key', data)
 
     def get_client_key(self, user_id):
         """
@@ -166,9 +167,8 @@ class YesGraphAPI(object):
 
         return self._request('POST', '/address-book', data)
 
-
     def backfill_address_book(self, user_id, entries, source_type, source_name=None,
-                          source_email=None):
+                              source_email=None):
         """
         Wrapped method for POST of /address-book endpoint
 
@@ -191,7 +191,6 @@ class YesGraphAPI(object):
         data = json.dumps(data)
 
         return self._request('POST', '/backfill/address-book', data)
-
 
     def post_invites_accepted(self, **kwargs):
         """
@@ -343,18 +342,3 @@ class YesGraphAPI(object):
         data = json.dumps(users)
 
         return self._request('POST', '/users', data=data)
-
-    def get_followers(self, type_name, identifier):
-        """
-        Wrapped method for GET of /followers/<type>/<identifier>/
-
-        Documentation - https://docs.yesgraph.com/v0/docs/followerstypeidentifier
-        """
-        if type_name not in ['user_id', 'email', 'phone']:
-            raise ValueError("type_name must be 'user_id', 'email', or 'phone'")
-        if not identifier:
-            raise ValueError("Must have a non-null identifier")
-
-        endpoint = '/followers/{0}/{1}'.format(type_name, identifier)
-
-        return self._request('GET', endpoint)
