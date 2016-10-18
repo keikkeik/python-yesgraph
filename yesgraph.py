@@ -342,3 +342,21 @@ class YesGraphAPI(object):
         data = json.dumps(users)
 
         return self._request('POST', '/users', data=data)
+
+    def post_alias(self, **kwargs):
+        """
+        Wrapped method for POST of /invites-accepted endpoint
+
+        Documentation - https://docs.yesgraph.com/docs/alias
+        """
+
+        entries = kwargs.get('entries', None)
+
+        if entries and type(entries) == list:
+            data = {'entries': entries}
+        else:
+            raise ValueError('An entry list is required')
+
+        data = json.dumps(data)
+
+        return self._request('POST', '/alias', data)
