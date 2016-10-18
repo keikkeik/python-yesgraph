@@ -372,6 +372,20 @@ def test_endpoint_post_users(api):
     assert json.loads(req.body) == USERS
 
 
+def test_endpoint_post_alias(api):
+    data = {'entries': [
+        {'emails': ['john.smith@gmail.com']},
+        {'emails': ['jane.doe@gmail.com']},
+    ]}
+
+    req = api.post_alias(entries=data['entries'])
+
+    assert req.method == 'POST'
+    assert req.url == 'https://api.yesgraph.com/v0/alias'
+
+    assert json.loads(req.body) == data
+
+
 def test_response_success(api):
     fake_http_response = make_fake_response(200, {
         'meta': {
