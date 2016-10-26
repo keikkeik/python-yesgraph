@@ -133,9 +133,9 @@ class YesGraphAPI(object):
 
     def get_domain_emails(self, domain):
         """
-        Wrapped method for POST of /client-key endpoint
+        Wrapped method for GET of /domain-emails/<domain> endpoint
 
-        Documentation - https://docs.yesgraph.com/docs/create-client-keys
+        Documentation - https://docs.yesgraph.com/docs/domain-emails/
         """
         endpoint = '/domain-emails/{0}'.format(quote_plus(str(domain)))
         return self._request('GET', endpoint)
@@ -179,9 +179,9 @@ class YesGraphAPI(object):
     def backfill_address_book(self, user_id, entries, source_type, source_name=None,
                               source_email=None):
         """
-        Wrapped method for POST of /address-book endpoint
+        Wrapped method for POST of /backfill/address-book endpoint
 
-        Documentation - https://www.yesgraph.com/docs/address-book
+        Documentation - https://www.yesgraph.com/docs/backfill/address-book
         """
         source = {
             'type': source_type,
@@ -223,7 +223,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invite-accepted endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invite-accepted
+        Documentation - https://docs.yesgraph.com/docs/invites-accepted
         """
         email = kwargs.get('email')
         phone = kwargs.get('phone')
@@ -284,7 +284,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invite-sent endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invite-sent
+        Documentation - https://docs.yesgraph.com/docs/invites-sent
         """
         email = kwargs.get('email')
         phone = kwargs.get('phone')
@@ -325,7 +325,7 @@ class YesGraphAPI(object):
 
     def post_suggested_seen(self, **kwargs):
         """
-        Wrapped method for POST of /invites-accepted endpoint
+        Wrapped method for POST of /suggested-seen endpoint
 
         Documentation - https://docs.yesgraph.com/docs/suggested-seen
         """
@@ -354,7 +354,7 @@ class YesGraphAPI(object):
 
     def post_alias(self, **kwargs):
         """
-        Wrapped method for POST of /invites-accepted endpoint
+        Wrapped method for POST of /alias endpoint
 
         Documentation - https://docs.yesgraph.com/docs/alias
         """
