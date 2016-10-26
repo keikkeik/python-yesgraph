@@ -373,12 +373,9 @@ def test_endpoint_post_users(api):
 
 
 def test_endpoint_post_alias(api):
-    data = {'entries': [
-        {'emails': ['john.smith@gmail.com']},
-        {'emails': ['jane.doe@gmail.com']},
-    ]}
+    data = {'emails': ['john.smith@gmail.com', 'jane.doe@gmail.com']}
 
-    req = api.post_alias(entries=data['entries'])
+    req = api.post_alias(emails=data['emails'])
 
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/alias'

@@ -350,10 +350,10 @@ class YesGraphAPI(object):
         Documentation - https://docs.yesgraph.com/docs/alias
         """
 
-        entries = kwargs.get('entries', None)
+        emails = kwargs.get('emails', None)
 
-        if entries and type(entries) == list:
-            data = {'entries': entries}
+        if emails and type(emails) == list:
+            data = {'emails': emails}
         else:
             raise ValueError('An entry list is required')
 
