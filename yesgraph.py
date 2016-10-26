@@ -52,11 +52,7 @@ class YesGraphAPI(object):
 
         return url
 
-    def _prepare_request(self, method, endpoint, data=None,
-                         filter_suggested_seen=None,
-                         filter_existing_users=None,
-                         filter_invites_sent=None,
-                         promote_existing_users=None, limit=None):
+    def _prepare_request(self, method, endpoint, data=None, **url_args):
         """Builds and prepares the complete request, but does not send it."""
         headers = {
             'Authorization': 'Bearer {0}'.format(self.secret_key),
@@ -64,11 +60,7 @@ class YesGraphAPI(object):
             'User-Agent': self.user_agent,
         }
 
-        url = self._build_url(endpoint, filter_suggested_seen=filter_suggested_seen,
-                              filter_existing_users=filter_existing_users,
-                              filter_invites_sent=filter_invites_sent,
-                              promote_existing_users=promote_existing_users,
-                              limit=limit)
+        url = self._build_url(endpoint, **url_args)
 
         req = Request(method, url, data=data, headers=headers)
 
@@ -131,14 +123,17 @@ class YesGraphAPI(object):
         endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
         return self._request('GET', endpoint, **urlargs)
 
-    def get_domain_emails(self, domain):
+    def get_domain_emails(self, domain, page=None, batch_size=None):
         """
         Wrapped method for GET of /domain-emails/<domain> endpoint
 
         Documentation - https://docs.yesgraph.com/docs/domain-emails/
         """
+
+        urlargs = {'page': page, 'batch_size': batch_size}
+
         endpoint = '/domain-emails/{0}'.format(quote_plus(str(domain)))
-        return self._request('GET', endpoint)
+        return self._request('GET', endpoint, **urlargs)
 
     def post_address_book(self, user_id, entries, source_type, source_name=None,
                           source_email=None, filter_suggested_seen=None,
