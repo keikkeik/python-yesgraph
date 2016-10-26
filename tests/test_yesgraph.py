@@ -110,6 +110,13 @@ def test_endpoint_get_address_book(api):
     assert req.url == 'https://api.yesgraph.com/v0/address-book/user%2Fwith%3Funsafe%26chars%3Dinthem'
 
 
+def test_endpoint_get_domain_emails(api):
+    req = api.get_domain_emails(domain='yesgraph.com')
+    assert req.method == 'GET'
+    assert req.url == 'https://api.yesgraph.com/v0/domain-emails/yesgraph.com'
+    assert req.body is None
+
+
 def test_endpoint_backfill_address_book(api):
     # Simplest invocation (without source info)
     ENTRIES = [
@@ -373,12 +380,9 @@ def test_endpoint_post_users(api):
 
 
 def test_endpoint_post_alias(api):
-    data = {'entries': [
-        {'emails': ['john.smith@gmail.com']},
-        {'emails': ['jane.doe@gmail.com']},
-    ]}
+    data = {'emails': ['john.smith@gmail.com', 'jane.doe@gmail.com']}
 
-    req = api.post_alias(entries=data['entries'])
+    req = api.post_alias(emails=data['emails'])
 
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/alias'

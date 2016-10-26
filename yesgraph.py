@@ -52,11 +52,7 @@ class YesGraphAPI(object):
 
         return url
 
-    def _prepare_request(self, method, endpoint, data=None,
-                         filter_suggested_seen=None,
-                         filter_existing_users=None,
-                         filter_invites_sent=None,
-                         promote_existing_users=None, limit=None):
+    def _prepare_request(self, method, endpoint, data=None, **url_args):
         """Builds and prepares the complete request, but does not send it."""
         headers = {
             'Authorization': 'Bearer {0}'.format(self.secret_key),
@@ -64,11 +60,7 @@ class YesGraphAPI(object):
             'User-Agent': self.user_agent,
         }
 
-        url = self._build_url(endpoint, filter_suggested_seen=filter_suggested_seen,
-                              filter_existing_users=filter_existing_users,
-                              filter_invites_sent=filter_invites_sent,
-                              promote_existing_users=promote_existing_users,
-                              limit=limit)
+        url = self._build_url(endpoint, **url_args)
 
         req = Request(method, url, data=data, headers=headers)
 
@@ -131,6 +123,18 @@ class YesGraphAPI(object):
         endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
         return self._request('GET', endpoint, **urlargs)
 
+    def get_domain_emails(self, domain, page=None, batch_size=None):
+        """
+        Wrapped method for GET of /domain-emails/<domain> endpoint
+
+        Documentation - https://docs.yesgraph.com/docs/domain-emails/
+        """
+
+        urlargs = {'page': page, 'batch_size': batch_size}
+
+        endpoint = '/domain-emails/{0}'.format(quote_plus(str(domain)))
+        return self._request('GET', endpoint, **urlargs)
+
     def post_address_book(self, user_id, entries, source_type, source_name=None,
                           source_email=None, filter_suggested_seen=None,
                           filter_existing_users=None,
@@ -170,9 +174,9 @@ class YesGraphAPI(object):
     def backfill_address_book(self, user_id, entries, source_type, source_name=None,
                               source_email=None):
         """
-        Wrapped method for POST of /address-book endpoint
+        Wrapped method for POST of /backfill/address-book endpoint
 
-        Documentation - https://www.yesgraph.com/docs/address-book
+        Documentation - https://www.yesgraph.com/docs/backfill/address-book
         """
         source = {
             'type': source_type,
@@ -214,7 +218,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invite-accepted endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invite-accepted
+        Documentation - https://docs.yesgraph.com/docs/invites-accepted
         """
         email = kwargs.get('email')
         phone = kwargs.get('phone')
@@ -275,7 +279,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /invite-sent endpoint
 
-        Documentation - https://www.yesgraph.com/docs/reference#post-invite-sent
+        Documentation - https://docs.yesgraph.com/docs/invites-sent
         """
         email = kwargs.get('email')
         phone = kwargs.get('phone')
@@ -316,7 +320,7 @@ class YesGraphAPI(object):
 
     def post_suggested_seen(self, **kwargs):
         """
-        Wrapped method for POST of /invites-accepted endpoint
+        Wrapped method for POST of /suggested-seen endpoint
 
         Documentation - https://docs.yesgraph.com/docs/suggested-seen
         """
@@ -345,15 +349,15 @@ class YesGraphAPI(object):
 
     def post_alias(self, **kwargs):
         """
-        Wrapped method for POST of /invites-accepted endpoint
+        Wrapped method for POST of /alias endpoint
 
         Documentation - https://docs.yesgraph.com/docs/alias
         """
 
-        entries = kwargs.get('entries', None)
+        emails = kwargs.get('emails', None)
 
-        if entries and type(entries) == list:
-            data = {'entries': entries}
+        if emails and type(emails) == list:
+            data = {'emails': emails}
         else:
             raise ValueError('An entry list is required')
 
