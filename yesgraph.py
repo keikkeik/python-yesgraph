@@ -131,6 +131,15 @@ class YesGraphAPI(object):
         endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
         return self._request('GET', endpoint, **urlargs)
 
+    def get_domain_emails(self, domain):
+        """
+        Wrapped method for POST of /client-key endpoint
+
+        Documentation - https://docs.yesgraph.com/docs/create-client-keys
+        """
+        endpoint = '/domain-emails/{0}'.format(quote_plus(str(domain)))
+        return self._request('GET', endpoint)
+
     def post_address_book(self, user_id, entries, source_type, source_name=None,
                           source_email=None, filter_suggested_seen=None,
                           filter_existing_users=None,
