@@ -9,7 +9,7 @@ from requests import Request, Session
 
 from six.moves.urllib.parse import quote_plus
 
-__version__ = '0.6.3'
+__version__ = '0.6.4'
 
 
 def deprecation(message):
