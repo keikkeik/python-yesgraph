@@ -108,7 +108,9 @@ class YesGraphAPI(object):
                          filter_existing_users=None,
                          filter_invites_sent=None,
                          promote_existing_users=None,
-                         filter_blank_names=None, limit=None):
+                         promote_matching_domain=None,
+                         filter_blank_names=None, 
+                         limit=None):
         """
         Wrapped method for GET of /address-book endpoint
 
@@ -120,6 +122,7 @@ class YesGraphAPI(object):
                    'filter_invites_sent': filter_invites_sent,
                    'filter_blank_names': filter_blank_names,
                    'promote_existing_users': promote_existing_users,
+                   'promote_matching_domain': promote_matching_domain,
                    'limit': limit}
 
         endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
@@ -152,7 +155,9 @@ class YesGraphAPI(object):
                           filter_existing_users=None,
                           filter_invites_sent=None,
                           filter_blank_names=None,
-                          promote_existing_users=None, limit=None):
+                          promote_existing_users=None, 
+                          promote_matching_domain=None,
+                          limit=None):
         """
         Wrapped method for POST of /address-book endpoint
 
@@ -176,6 +181,7 @@ class YesGraphAPI(object):
             'filter_invites_sent': filter_invites_sent,
             'filter_blank_names': filter_blank_names,
             'promote_existing_users': promote_existing_users,
+            'promote_matching_domain': promote_matching_domain,
             'source': source,
             'entries': entries,
             'limit': limit
