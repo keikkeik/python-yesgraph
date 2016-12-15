@@ -107,7 +107,8 @@ class YesGraphAPI(object):
     def get_address_book(self, user_id, filter_suggested_seen=None,
                          filter_existing_users=None,
                          filter_invites_sent=None,
-                         promote_existing_users=None, limit=None):
+                         promote_existing_users=None,
+                         filter_blank_names=None, limit=None):
         """
         Wrapped method for GET of /address-book endpoint
 
@@ -117,11 +118,22 @@ class YesGraphAPI(object):
         urlargs = {'filter_suggested_seen': filter_suggested_seen,
                    'filter_existing_users': filter_existing_users,
                    'filter_invites_sent': filter_invites_sent,
+                   'filter_blank_names': filter_blank_names,
                    'promote_existing_users': promote_existing_users,
                    'limit': limit}
 
         endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
         return self._request('GET', endpoint, **urlargs)
+    
+    def delete_address_book(self, user_id):
+        """
+        Wrapped method for DELETE /address-book/:user_id endpoint
+
+        Documentation - https://www.yesgraph.com/docs/address-book
+        """
+
+        endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
+        return self._request('DELETE', endpoint)
 
     def get_domain_emails(self, domain, page=None, batch_size=None):
         """
@@ -139,6 +151,7 @@ class YesGraphAPI(object):
                           source_email=None, filter_suggested_seen=None,
                           filter_existing_users=None,
                           filter_invites_sent=None,
+                          filter_blank_names=None,
                           promote_existing_users=None, limit=None):
         """
         Wrapped method for POST of /address-book endpoint
@@ -161,6 +174,7 @@ class YesGraphAPI(object):
             'filter_suggested_seen': filter_suggested_seen,
             'filter_existing_users': filter_existing_users,
             'filter_invites_sent': filter_invites_sent,
+            'filter_blank_names': filter_blank_names,
             'promote_existing_users': promote_existing_users,
             'source': source,
             'entries': entries,
