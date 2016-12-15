@@ -7,7 +7,8 @@ from setuptools import setup
 
 dependencies = ['requests', 'six']
 
-version = '0.6.5'
+# Change the version number in yesgraph.py, not here.
+version = ''
 with open('yesgraph.py', 'r') as f:
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
                         f.read(), re.MULTILINE).group(1)
