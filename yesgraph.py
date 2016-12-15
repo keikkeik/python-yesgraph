@@ -87,7 +87,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for GET of /test endpoint
 
-        Documentation - https://www.yesgraph.com/docs/test
+        Documentation - https://docs.yesgraph.com/docs/test
         """
         return self._request('GET', '/test')
 
@@ -104,52 +104,6 @@ class YesGraphAPI(object):
         result = self._get_client_key(user_id)
         return result['client_key']
 
-    def get_address_book(self, user_id, filter_suggested_seen=None,
-                         filter_existing_users=None,
-                         filter_invites_sent=None,
-                         promote_existing_users=None,
-                         promote_matching_domain=None,
-                         filter_blank_names=None, 
-                         limit=None):
-        """
-        Wrapped method for GET of /address-book endpoint
-
-        Documentation - https://www.yesgraph.com/docs/address-book
-        """
-
-        urlargs = {'filter_suggested_seen': filter_suggested_seen,
-                   'filter_existing_users': filter_existing_users,
-                   'filter_invites_sent': filter_invites_sent,
-                   'filter_blank_names': filter_blank_names,
-                   'promote_existing_users': promote_existing_users,
-                   'promote_matching_domain': promote_matching_domain,
-                   'limit': limit}
-
-        endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
-        return self._request('GET', endpoint, **urlargs)
-    
-    def delete_address_book(self, user_id):
-        """
-        Wrapped method for DELETE /address-book/:user_id endpoint
-
-        Documentation - https://www.yesgraph.com/docs/address-book
-        """
-
-        endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
-        return self._request('DELETE', endpoint)
-
-    def get_domain_emails(self, domain, page=None, batch_size=None):
-        """
-        Wrapped method for GET of /domain-emails/<domain> endpoint
-
-        Documentation - https://docs.yesgraph.com/docs/domain-emails/
-        """
-
-        urlargs = {'page': page, 'batch_size': batch_size}
-
-        endpoint = '/domain-emails/{0}'.format(quote_plus(str(domain)))
-        return self._request('GET', endpoint, **urlargs)
-
     def post_address_book(self, user_id, entries, source_type, source_name=None,
                           source_email=None, filter_suggested_seen=None,
                           filter_existing_users=None,
@@ -161,7 +115,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /address-book endpoint
 
-        Documentation - https://www.yesgraph.com/docs/address-book
+        Documentation - https://docs.yesgraph.com/docs/address-book
         """
         source = {
             'type': source_type,
@@ -196,7 +150,7 @@ class YesGraphAPI(object):
         """
         Wrapped method for POST of /backfill/address-book endpoint
 
-        Documentation - https://www.yesgraph.com/docs/backfill/address-book
+        Documentation - https://docs.yesgraph.com/docs/backfilladdress-book
         """
         source = {
             'type': source_type,
@@ -215,6 +169,40 @@ class YesGraphAPI(object):
         data = json.dumps(data)
 
         return self._request('POST', '/backfill/address-book', data)
+
+    def get_address_book(self, user_id, filter_suggested_seen=None,
+                         filter_existing_users=None,
+                         filter_invites_sent=None,
+                         promote_existing_users=None,
+                         promote_matching_domain=None,
+                         filter_blank_names=None, 
+                         limit=None):
+        """
+        Wrapped method for GET of /address-book endpoint
+
+        Documentation - https://docs.yesgraph.com/docs/address-book#section-get-address-bookuser_id
+        """
+
+        urlargs = {'filter_suggested_seen': filter_suggested_seen,
+                   'filter_existing_users': filter_existing_users,
+                   'filter_invites_sent': filter_invites_sent,
+                   'filter_blank_names': filter_blank_names,
+                   'promote_existing_users': promote_existing_users,
+                   'promote_matching_domain': promote_matching_domain,
+                   'limit': limit}
+
+        endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
+        return self._request('GET', endpoint, **urlargs)
+    
+    def delete_address_book(self, user_id):
+        """
+        Wrapped method for DELETE /address-book/:user_id endpoint
+
+        Documentation - https://docs.yesgraph.com/docs/address-book#section-delete-address-bookuser_id
+        """
+
+        endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
+        return self._request('DELETE', endpoint)
 
     def post_invites_accepted(self, **kwargs):
         """
@@ -384,3 +372,15 @@ class YesGraphAPI(object):
         data = json.dumps(data)
 
         return self._request('POST', '/alias', data)
+
+    def get_domain_emails(self, domain, page=None, batch_size=None):
+        """
+        Wrapped method for GET of /domain-emails/<domain> endpoint
+
+        Documentation - https://docs.yesgraph.com/docs/domain-emails/
+        """
+
+        urlargs = {'page': page, 'batch_size': batch_size}
+
+        endpoint = '/domain-emails/{0}'.format(quote_plus(str(domain)))
+        return self._request('GET', endpoint, **urlargs)
