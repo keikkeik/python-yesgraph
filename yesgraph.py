@@ -109,7 +109,7 @@ class YesGraphAPI(object):
                           filter_existing_users=None,
                           filter_invites_sent=None,
                           filter_blank_names=None,
-                          promote_existing_users=None, 
+                          promote_existing_users=None,
                           promote_matching_domain=None,
                           limit=None):
         """
@@ -175,7 +175,7 @@ class YesGraphAPI(object):
                          filter_invites_sent=None,
                          promote_existing_users=None,
                          promote_matching_domain=None,
-                         filter_blank_names=None, 
+                         filter_blank_names=None,
                          limit=None):
         """
         Wrapped method for GET of /address-book endpoint
@@ -193,7 +193,7 @@ class YesGraphAPI(object):
 
         endpoint = '/address-book/{0}'.format(quote_plus(str(user_id)))
         return self._request('GET', endpoint, **urlargs)
-    
+
     def delete_address_book(self, user_id):
         """
         Wrapped method for DELETE /address-book/:user_id endpoint
