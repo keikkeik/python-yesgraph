@@ -110,6 +110,17 @@ def test_endpoint_get_address_book(api):
     assert req.url == 'https://api.yesgraph.com/v0/address-book/user%2Fwith%3Funsafe%26chars%3Dinthem'
 
 
+def test_endpoint_delete_address_book(api):
+    req = api.delete_address_book(user_id=1234)
+    assert req.method == 'DELETE'
+    assert req.url == 'https://api.yesgraph.com/v0/address-book/1234'
+    assert req.body is None
+
+    # Test URL unsafe arguments to methods
+    req = api.delete_address_book(user_id='user/with?unsafe&chars=inthem')
+    assert req.url == 'https://api.yesgraph.com/v0/address-book/user%2Fwith%3Funsafe%26chars%3Dinthem'
+
+
 def test_endpoint_get_domain_emails(api):
     req = api.get_domain_emails(domain='yesgraph.com')
     assert req.method == 'GET'
@@ -160,7 +171,9 @@ def test_endpoint_post_address_book(api):
         'filter_suggested_seen': None,
         'filter_existing_users': None,
         'filter_invites_sent': None,
+        'filter_blank_names': None,
         'promote_existing_users': None,
+        'promote_matching_domain': None,
         'entries': ENTRIES,
         'limit': 20
     }
@@ -176,7 +189,9 @@ def test_endpoint_post_address_book(api):
         'filter_suggested_seen': 1,
         'filter_existing_users': None,
         'filter_invites_sent': None,
+        'filter_blank_names': None,
         'promote_existing_users': None,
+        'promote_matching_domain': None,
         'entries': ENTRIES,
         'limit': 20
     }
@@ -199,7 +214,9 @@ def test_endpoint_post_address_book_with_source_info(api):
         'filter_suggested_seen': None,
         'filter_existing_users': None,
         'filter_invites_sent': None,
+        'filter_blank_names': None,
         'promote_existing_users': None,
+        'promote_matching_domain': None,
         'entries': ENTRIES,
         'limit': None
     }
