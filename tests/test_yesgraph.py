@@ -204,7 +204,7 @@ def test_endpoint_post_address_book_backfill(api):
         {'name': 'Foo', 'email': 'foo@example.org'},
         {'name': 'Bar', 'email': 'bar@example.org'},
     ]
-    req = api.post_address_book(user_id=1234, entries=ENTRIES, source_type='gmail', backfill=True)
+    req = api.post_address_book(user_id=1234, entries=ENTRIES, source_type='gmail', backfill=1)
     assert req.method == 'POST'
     assert req.url == 'https://api.yesgraph.com/v0/address-book'
     print(json.loads(req.body))
