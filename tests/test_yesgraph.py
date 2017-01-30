@@ -219,7 +219,7 @@ def test_endpoint_post_address_book_backfill(api):
         'promote_matching_domain': None,
         'entries': ENTRIES,
         'limit': None,
-        'backfill': True
+        'backfill': 1
     }
 
 

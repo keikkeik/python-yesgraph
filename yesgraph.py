@@ -130,7 +130,7 @@ class YesGraphAPI(object):
             assert(type(limit) == int)
 
         if backfill is not None:
-            assert(type(backfill) == bool)
+            assert(type(backfill) == int)
 
         data = {
             'user_id': str(user_id),
