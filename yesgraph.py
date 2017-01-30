@@ -111,6 +111,7 @@ class YesGraphAPI(object):
                           filter_blank_names=None,
                           promote_existing_users=None,
                           promote_matching_domain=None,
+                          backfill=None,
                           limit=None):
         """
         Wrapped method for POST of /address-book endpoint
@@ -128,6 +129,9 @@ class YesGraphAPI(object):
         if limit is not None:
             assert(type(limit) == int)
 
+        if backfill is not None:
+            assert(type(backfill) == bool)
+
         data = {
             'user_id': str(user_id),
             'filter_suggested_seen': filter_suggested_seen,
@@ -138,37 +142,13 @@ class YesGraphAPI(object):
             'promote_matching_domain': promote_matching_domain,
             'source': source,
             'entries': entries,
-            'limit': limit
+            'limit': limit,
+            'backfill': backfill
         }
 
         data = json.dumps(data)
 
         return self._request('POST', '/address-book', data)
-
-    def backfill_address_book(self, user_id, entries, source_type, source_name=None,
-                              source_email=None):
-        """
-        Wrapped method for POST of /backfill/address-book endpoint
-
-        Documentation - https://docs.yesgraph.com/docs/backfilladdress-book
-        """
-        source = {
-            'type': source_type,
-        }
-        if source_name:
-            source['name'] = source_name
-        if source_email:
-            source['email'] = source_email
-
-        data = {
-            'user_id': str(user_id),
-            'source': source,
-            'entries': entries,
-        }
-
-        data = json.dumps(data)
-
-        return self._request('POST', '/backfill/address-book', data)
 
     def get_address_book(self, user_id, filter_suggested_seen=None,
                          filter_existing_users=None,
